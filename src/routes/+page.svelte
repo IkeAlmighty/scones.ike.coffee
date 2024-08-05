@@ -7,9 +7,17 @@
 			amount: 0,
 			suggestedPrice: 19.5
 		},
-		'Peanut Butter Cookies (8)': { amount: 0, suggestedPrice: 12 },
-		'Lemon Black Pepper Crackers (20)': { amount: 0, suggestedPrice: 10 },
-		'Browniezzz (8)': { amount: 0, suggestedPrice: 12 }
+		'Chocolate Chip Blueberry Scones': {
+			imageUrl: '',
+			amount: 0,
+			suggestedPrice: 19.5
+		},
+		'Cherry Chocolate Chip Scones': {
+			imageUrl: '',
+			amount: 0,
+			suggestedPrice: 19.5
+		},
+		'Peanut Butter Cookies (8)': { amount: 0, suggestedPrice: 12 }
 	};
 
 	$: suggestedPayment = calcSuggestedPayment(products);
