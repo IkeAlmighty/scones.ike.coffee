@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'OldNewspaperTypes';
+    src: url('/OldNewspaperTypes.ttf');
+}
+
+body {
+    font-family: 'OldNewspaperTypes';
+}
+
+.my-2 {
+    margin: 2rem auto;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.font-sm {
+    font-size: small;
+}
+
+.danger-italic {
+    color: red;
+    font-style: italic;
+}
+
+.inline-block {
+    display: inline-block;
+}
