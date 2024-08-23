@@ -25,7 +25,7 @@
 	let innerWidth = 0;
 	$: device = innerWidth < 697 ? 'mobile' : 'desktop';
 
-	$: paymentLink = `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products)}&note=${stringifyCart()}`;
+	$: paymentLink = `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products)}&note=${stringifyCart(customerContact, customerAddress, customerName)}`;
 
 	let customerAddress;
 	let delivering = false;
@@ -41,12 +41,12 @@
 		return total;
 	}
 
-	function stringifyCart() {
-		let cartString = `${customerContact}\n${delivering ? customerAddress : 'for pick up'}`;
+	function stringifyCart(...dependencies) {
+		let cartString = '';
 		Object.keys(products).forEach((productKey) => {
 			let product = products[productKey];
 			if (product.amount > 0) {
-				cartString += `${productKey} x ${product.amount}, `;
+				cartString += `${productKey} x ${product.amount}, \n`;
 			}
 		});
 
@@ -56,10 +56,11 @@
 	async function submitOrder() {
 		window.open(paymentLink);
 
-		//TODO: send order to backend to be texted to me:
+		// send order to backend to be emailed to me:
+		let customerInfo = `customer phone: ${customerContact}\n${delivering ? customerAddress : 'for pick up'}\n`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: stringifyCart() }),
+			body: JSON.stringify({ message: `${customerInfo} ${stringifyCart()}` }),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
@@ -67,7 +68,7 @@
 
 		if (apiResponse.ok) {
 			alert(
-				'GOOD JOB! I have recieved your order. Make sure to pay may in the venmo tab that just opened :)))'
+				'GOOD JOB! I have recieved your order. Make sure to pay may in the venmo tab that just opened :)))\n(Sometimes it bugs out, so you can always just pay to @ike_kitchen on venmo)'
 			);
 		}
 	}
