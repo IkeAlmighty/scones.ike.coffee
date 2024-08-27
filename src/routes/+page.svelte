@@ -2,22 +2,22 @@
 	import ProductItem from '$lib/components/ProductItem.svelte';
 
 	let products = {
-		'Lemon Earl Gray Scones (8)': {
-			imageUrl: '/test-scones-delete-later.jpg',
-			amount: 0,
-			suggestedPrice: 19.5
-		},
+		// 'Lemon Earl Gray Scones (8)': {
+		// 	imageUrl: '/test-scones-delete-later.jpg',
+		// 	amount: 0,
+		// 	suggestedPrice: 19.5
+		// },
 		'Chocolate Chip Blueberry Scones': {
 			imageUrl: '',
 			amount: 0,
 			suggestedPrice: 19.5
-		},
-		'Cherry Chocolate Chip Scones': {
-			imageUrl: '',
-			amount: 0,
-			suggestedPrice: 19.5
-		},
-		'Peanut Butter Cookies (8)': { amount: 0, suggestedPrice: 12 }
+		}
+		// 'Cherry Chocolate Chip Scones': {
+		// 	imageUrl: '',
+		// 	amount: 0,
+		// 	suggestedPrice: 19.5
+		// },
+		// 'Peanut Butter Cookies (8)': { amount: 0, suggestedPrice: 12 }
 	};
 
 	$: suggestedPayment = calcSuggestedPayment(products);
