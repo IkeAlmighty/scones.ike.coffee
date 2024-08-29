@@ -1,23 +1,15 @@
 <script>
+	import { goto } from '$app/navigation';
 	import ProductItem from '$lib/components/ProductItem.svelte';
+	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
-		// 'Lemon Earl Gray Scones (8)': {
-		// 	imageUrl: '/test-scones-delete-later.jpg',
-		// 	amount: 0,
-		// 	suggestedPrice: 19.5
-		// },
-		'Chocolate Chip Blueberry Scones': {
+		'choco-chip-blueberry-scone': {
+			name: 'Chocolate Chip Blueberry Scones',
 			imageUrl: '',
 			amount: 0,
 			suggestedPrice: 19.5
 		}
-		// 'Cherry Chocolate Chip Scones': {
-		// 	imageUrl: '',
-		// 	amount: 0,
-		// 	suggestedPrice: 19.5
-		// },
-		// 'Peanut Butter Cookies (8)': { amount: 0, suggestedPrice: 12 }
 	};
 
 	$: suggestedPayment = calcSuggestedPayment(products);
@@ -25,51 +17,22 @@
 	let innerWidth = 0;
 	$: device = innerWidth < 697 ? 'mobile' : 'desktop';
 
-	$: paymentLink = `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products)}&note=${stringifyCart(customerContact, customerAddress, customerName)}`;
-
 	let customerAddress;
 	let delivering = false;
 	let customerContact;
 	let customerName;
 
-	function calcSuggestedPayment(p) {
-		let total = 0;
-		Object.keys(p).forEach((key) => {
-			total += products[key].suggestedPrice * products[key].amount;
-		});
-
-		return total;
-	}
-
-	function stringifyCart(...dependencies) {
-		let cartString = '';
-		Object.keys(products).forEach((productKey) => {
-			let product = products[productKey];
-			if (product.amount > 0) {
-				cartString += `${productKey} x ${product.amount}, \n`;
-			}
-		});
-
-		return cartString;
-	}
-
 	async function submitOrder() {
-		window.open(paymentLink);
-
 		// send order to backend to be emailed to me:
 		let customerInfo = `customer phone: ${customerContact}\n${delivering ? customerAddress : 'for pick up'}\n`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: `${customerInfo} ${stringifyCart()}` }),
+			body: JSON.stringify({ message: `${customerInfo} ${stringifyCart(products)}` }),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		console.log(apiResponse);
-
 		if (apiResponse.ok) {
-			alert(
-				'GOOD JOB! I have recieved your order. Make sure to pay may in the venmo tab that just opened :)))\n(Sometimes it bugs out, so you can always just pay to @ike_kitchen on venmo)'
-			);
+			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(products))}`);
 		}
 	}
 </script>
@@ -78,13 +41,13 @@
 
 <div id="page-container">
 	<h1>Ike's Kitchen</h1>
-	{#each Object.keys(products) as productName}
+	{#each Object.keys(products) as productKey}
 		<div class="product-item-container">
 			<ProductItem
-				{productName}
-				imageUrl={products[productName].imageUrl}
-				price={products[productName].suggestedPrice}
-				bind:amount={products[productName].amount}
+				productName={products[productKey].name}
+				imageUrl={products[productKey].imageUrl}
+				price={products[productKey].suggestedPrice}
+				bind:amount={products[productKey].amount}
 			/>
 		</div>
 	{/each}
