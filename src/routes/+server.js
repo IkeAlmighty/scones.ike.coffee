@@ -23,7 +23,7 @@ export async function POST({ request }) {
         text: message
     }
 
-    transporter.sendMail(options, (err, info) => {
+    await transporter.sendMail(options, (err, info) => {
         if (err) {
             console.log('Error', err);
             return json({ status: 400 })
