@@ -23,13 +23,16 @@ export async function POST({ request }) {
         text: message
     }
 
-    await transporter.sendMail(options, (err, info) => {
+    await new Promise((resolve, reject) => transporter.sendMail(options, (err, info) => {
         if (err) {
-            console.log('Error', err);
-            return json({ status: 400 })
+            console.error('Error', err);
+            reject(err);
         }
-        else console.log('Email Sent', info.response);
-    });
+        else {
+            console.log('Email Sent', info.response);
+            resolve(info);
+        }
+    }));
 
     return json({ status: 200 });
 }
