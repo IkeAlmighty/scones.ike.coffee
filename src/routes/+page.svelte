@@ -5,8 +5,8 @@
 
 	let products = {
 		'choco-chip-blueberry-scone': {
-			name: 'Chocolate Chip Blueberry Scones',
-			imageUrl: '',
+			name: 'Chocolate Chip Blueberry Scones (8 count)',
+			imageUrl: '/blueberry_scone.jpg',
 			amount: 0,
 			suggestedPrice: 19.5
 		}
@@ -33,6 +33,8 @@
 
 		if (apiResponse.ok) {
 			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(products))}`);
+		} else {
+			console.log(await apiResponse.text());
 		}
 	}
 </script>
@@ -40,7 +42,8 @@
 <svelte:window bind:innerWidth />
 
 <div id="page-container">
-	<h1>Ike's Kitchen</h1>
+	<h1>scones.ike.coffee</h1>
+	<div>Selling real scones for ike's imaginary coffee shop.</div>
 	{#each Object.keys(products) as productKey}
 		<div class="product-item-container">
 			<ProductItem
@@ -58,7 +61,7 @@
 				<div>Delivery?</div>
 				<input type="checkbox" bind:checked={delivering} />
 			</label>
-			<div class="inline-block font-sm danger-italic">I only deliver to Minneapolis</div>
+			<div class="font-sm danger-italic">Please note that I only deliver to Minneapolis</div>
 		</div>
 
 		{#if delivering}
@@ -112,10 +115,10 @@
 <style>
 	label div {
 		display: inline-block;
-		width: 9rem;
+		width: 10rem;
 	}
 	#page-container {
-		max-width: 500px;
+		max-width: 600px;
 		margin: auto auto;
 	}
 

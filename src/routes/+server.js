@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { GOOGLE_APP_PASSWORD } from '$env/static/private';
+import { GOOGLE_APP_USER } from '$env/static/private';
 import nodemailer from 'nodemailer';
 
 export async function POST({ request }) {
@@ -10,14 +11,14 @@ export async function POST({ request }) {
         port: 587,
         secure: false,
         auth: {
-            user: 'isaacyates.creative@gmail.com',
+            user: GOOGLE_APP_USER,
             pass: GOOGLE_APP_PASSWORD
         },
     });
 
     const options = {
-        from: 'isaacyates.creative@gmail.com',
-        to: 'isaacyates.creative@gmail.com',
+        from: GOOGLE_APP_USER,
+        to: GOOGLE_APP_USER,
         subject: `ORDER: ${Date.now()}`,
         text: message
     }
