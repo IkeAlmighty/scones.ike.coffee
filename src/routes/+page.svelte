@@ -89,9 +89,9 @@
 	<div id={`payment-total-container-${device}`}>
 		<div>
 			<hr />
-			{#each Object.keys(products) as productName}
-				{#if products[productName].amount > 0}
-					<div>{productName} x {products[productName].amount}</div>
+			{#each Object.keys(products) as key}
+				{#if products[key].amount > 0}
+					<div>{products[key].name} x {products[key].amount}</div>
 				{/if}
 			{/each}
 		</div>
