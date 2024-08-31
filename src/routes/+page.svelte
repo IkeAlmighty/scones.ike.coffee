@@ -110,6 +110,8 @@
 			on:click={submitOrder}>Submit Order</button
 		>
 	</div>
+
+	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
 </div>
 
 <style>
