@@ -4,7 +4,6 @@
 	export let price; // External price prop
 	export let imageUrl;
 	export let amount = 0; // bindable external amount prop
-	export let details = '';
 	export let productName;
 
 	// Function to handle incrementing the amount
@@ -34,12 +33,6 @@
 </div>
 
 <style>
-	.product-item {
-		/* border: 1px solid black; */
-		padding: 0.5rem;
-		max-width: 400px;
-	}
-
 	#product-name {
 		font-size: 1.2rem;
 	}
@@ -51,8 +44,7 @@
 		object-fit: cover;
 		border-radius: 5px;
 	}
-	.product-info {
-	}
+
 	.amount-controls {
 		font-size: 1.5rem;
 		text-align: center;

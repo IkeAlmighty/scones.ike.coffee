@@ -6,7 +6,7 @@
 	let products = {
 		'choco-chip-blueberry-scone-8count': {
 			name: 'Chocolate Chip Blueberry Scones (8 count)',
-			imageUrl: '',
+			imageUrl: '/scone-8count.jpg',
 			amount: 0,
 			suggestedPrice: 19.5
 		},
@@ -68,6 +68,7 @@
 				price={products[productKey].suggestedPrice}
 				bind:amount={products[productKey].amount}
 			/>
+			<hr class="mt-2" />
 		</div>
 	{/each}
 
