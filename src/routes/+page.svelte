@@ -33,12 +33,14 @@
 	let customerContact;
 	let customerName;
 
+	let additionalDetails;
+
 	// update delivery fee if the delivery toggle is selected
 	$: delivering ? (products['delivery-fee'].amount = 1) : (products['delivery-fee'].amount = 0);
 
 	async function submitOrder() {
 		// send order to backend to be emailed to me:
-		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\n`;
+		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
 			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(products)}` }),
@@ -100,6 +102,11 @@
 				<input type="text" bind:value={customerName} /></label
 			>
 		</div>
+		<div>
+			<div class="mt-2">Additional Details</div>
+			<div class="font-sm">When do you want them? any special instructions?</div>
+			<textarea bind:value={additionalDetails} />
+		</div>
 	</div>
 
 	<div id={`payment-total-container-${device}`}>
@@ -158,5 +165,10 @@
 
 	.product-item-container {
 		margin: 3rem auto;
+	}
+
+	textarea {
+		width: 90%;
+		padding: 1rem;
 	}
 </style>
