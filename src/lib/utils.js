@@ -5,7 +5,7 @@ function stringifyCart(products) {
     Object.keys(products).forEach((key) => {
         let product = products[key];
         if (product.amount > 0) {
-            cartString += `${product.name} x ${product.amount}, \n`;
+            cartString += `${product.name} x ${product.amount}\n`;
         }
     });
 
@@ -22,7 +22,7 @@ function calcSuggestedPayment(products) {
 }
 
 function generatePaymentLink(products) {
-    return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products)}&note=${stringifyCart(products)}`;
+    return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products, isDelivery)}&note=${stringifyCart(products)}`;
 }
 
 export { calcSuggestedPayment, stringifyCart, generatePaymentLink }
