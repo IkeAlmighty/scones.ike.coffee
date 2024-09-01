@@ -22,7 +22,7 @@ function calcSuggestedPayment(products) {
 }
 
 function generatePaymentLink(products) {
-    return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products, isDelivery)}&note=${stringifyCart(products)}`;
+    return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products)}&note=${stringifyCart(products)}`;
 }
 
 export { calcSuggestedPayment, stringifyCart, generatePaymentLink }
