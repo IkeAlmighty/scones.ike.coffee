@@ -17,12 +17,16 @@
 
 <h1>Thank You!!!!!</h1>
 <h2>Here is your order:</h2>
-{stringifyCart(cart)}
+{#each stringifyCart(cart).split('\n') as item}
+	{item}<br />
+{/each}
 
 <hr />
 <div>You can pay in person, or click the button below to open a special venmo link:</div>
 
 <button><a href={paymentLink}>Pay Via Venmo</a></button>
+
+<div><a href="/">&lt;-- back to order page</a></div>
 
 <style>
 	button {
