@@ -4,11 +4,22 @@
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
-		'choco-chip-blueberry-scone': {
+		'choco-chip-blueberry-scone-8count': {
 			name: 'Chocolate Chip Blueberry Scones (8 count)',
-			imageUrl: '/blueberry_scone.jpg',
+			imageUrl: '',
 			amount: 0,
 			suggestedPrice: 19.5
+		},
+		'choco-chip-blueberry-scone-single': {
+			name: 'Chocolate Chip Blueberry Scone (single)',
+			imageUrl: '/blueberry_scone.jpg',
+			amount: 0,
+			suggestedPrice: 3
+		},
+		'delivery-fee': {
+			name: 'Delivery Fee',
+			amount: 0,
+			suggestedPrice: 5
 		}
 	};
 
@@ -22,12 +33,15 @@
 	let customerContact;
 	let customerName;
 
+	// update delivery fee if the delivery toggle is selected
+	$: delivering ? (products['delivery-fee'].amount = 1) : (products['delivery-fee'].amount = 0);
+
 	async function submitOrder() {
 		// send order to backend to be emailed to me:
-		let customerInfo = `customer phone: ${customerContact}\n${delivering ? customerAddress : 'for pick up'}\n`;
+		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\n`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: `${customerInfo} ${stringifyCart(products)}` }),
+			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(products)}` }),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
@@ -44,7 +58,7 @@
 <div id="page-container">
 	<h1>scones.ike.coffee</h1>
 	<div>Selling real scones for ike's imaginary coffee shop.</div>
-	{#each Object.keys(products) as productKey}
+	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
 			<ProductItem
 				productName={products[productKey].name}
@@ -61,7 +75,9 @@
 				<div>Delivery?</div>
 				<input type="checkbox" bind:checked={delivering} />
 			</label>
-			<div class="font-sm danger-italic">Please note that I only deliver to Minneapolis</div>
+			<div class="font-sm danger-italic">
+				Please note that I only deliver to Minneapolis, via bicycle. Sorry!
+			</div>
 		</div>
 
 		{#if delivering}
