@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import ProductItem from '$lib/components/ProductItem.svelte';
+	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
@@ -22,6 +23,13 @@
 			suggestedPrice: 5
 		}
 	};
+
+	const testimonials = [
+		{
+			author: 'Karen Ives',
+			text: 'Scones were awesome, folks like they are "moist" and not dried out like so many scones, mostly gone by the time I left.'
+		}
+	];
 
 	$: suggestedPayment = calcSuggestedPayment(products);
 
@@ -136,6 +144,10 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
+
+	<div id="testimonial-contianer">
+		<TestimonialCarousel {testimonials} />
+	</div>
 </div>
 
 <style>
@@ -171,5 +183,9 @@
 	textarea {
 		width: 90%;
 		padding: 1rem;
+	}
+
+	#testimonial-contianer {
+		margin: 5rem 0;
 	}
 </style>
