@@ -27,3 +27,7 @@ body {
 .inline-block {
     display: inline-block;
 }
+
+button:hover {
+    cursor: pointer;
+}
