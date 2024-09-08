@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import ProductItem from '$lib/components/ProductItem.svelte';
+	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
@@ -144,10 +145,12 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
-
-	<div id="testimonial-contianer">
+  
+  <div id="testimonial-contianer">
 		<TestimonialCarousel {testimonials} />
 	</div>
+  
+	<div id="social-media"><a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a></div>
 </div>
 
 <style>
@@ -185,6 +188,12 @@
 		padding: 1rem;
 	}
 
+
+	#social-media {
+		text-align: center;
+		margin: 2rem auto;
+  }
+  
 	#testimonial-contianer {
 		margin: 5rem 0;
 	}
