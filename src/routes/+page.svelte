@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import ProductItem from '$lib/components/ProductItem.svelte';
+	import IGIcon from '$lib/components/IGIcon.svelte';
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
@@ -136,6 +137,7 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
+	<div id="social-media"><a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a></div>
 </div>
 
 <style>
@@ -171,5 +173,10 @@
 	textarea {
 		width: 90%;
 		padding: 1rem;
+	}
+
+	#social-media {
+		text-align: center;
+		margin: 2rem auto;
 	}
 </style>
