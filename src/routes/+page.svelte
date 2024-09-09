@@ -148,6 +148,7 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
+	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchen</div>
 
 	<div id="testimonial-contianer">
 		<TestimonialCarousel {testimonials} />
