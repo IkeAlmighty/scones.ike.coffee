@@ -7,16 +7,16 @@
 
 	let products = {
 		'choco-chip-blueberry-scone-8count': {
-			name: 'Chocolate Chip Blueberry Scones (8 count)',
+			name: 'Chocolate Chip Blueberry Scones (8 Count)',
 			imageUrl: '/scone_16count.jpg',
-			details: 'Eight delicious scones.',
+			details: 'Chocolate chips and bluberries in eight delicious scones.',
 			amount: 0,
 			suggestedPrice: 19.5
 		},
 		'choco-chip-blueberry-scone-single': {
-			name: '2 Scones & 2 Tea Bags',
-			imageUrl: '/blueberry_scone.jpg',
-			details: 'Two random scones and two tea bags for a fun little tea time treat!',
+			name: 'Blueberry Lemon Scones (8 Count)',
+			imageUrl: '',
+			details: 'Lemon zest and blueberries in eight delicious scones.',
 			amount: 0,
 			suggestedPrice: 7
 		},
@@ -148,7 +148,7 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
-	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchen</div>
+	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchenex</div>
 
 	<div id="testimonial-contianer">
 		<TestimonialCarousel {testimonials} />
