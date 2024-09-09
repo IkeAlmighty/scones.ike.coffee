@@ -24,6 +24,10 @@ body {
     font-style: italic;
 }
 
+.italic {
+    font-style: italic;
+}
+
 .inline-block {
     display: inline-block;
 }

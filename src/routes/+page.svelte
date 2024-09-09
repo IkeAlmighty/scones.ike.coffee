@@ -8,15 +8,17 @@
 	let products = {
 		'choco-chip-blueberry-scone-8count': {
 			name: 'Chocolate Chip Blueberry Scones (8 count)',
-			imageUrl: '/scone-8count.jpg',
+			imageUrl: '/scone_16count.jpg',
+			details: 'Eight delicious scones.',
 			amount: 0,
 			suggestedPrice: 19.5
 		},
 		'choco-chip-blueberry-scone-single': {
-			name: 'Chocolate Chip Blueberry Scone (single)',
+			name: '2 Scones & 2 Tea Bags',
 			imageUrl: '/blueberry_scone.jpg',
+			details: 'Two random scones and two tea bags for a fun little tea time treat!',
 			amount: 0,
-			suggestedPrice: 3
+			suggestedPrice: 7
 		},
 		'delivery-fee': {
 			name: 'Delivery Fee',
@@ -75,6 +77,7 @@
 				productName={products[productKey].name}
 				imageUrl={products[productKey].imageUrl}
 				price={products[productKey].suggestedPrice}
+				details={products[productKey].details}
 				bind:amount={products[productKey].amount}
 			/>
 			<hr class="mt-2" />
@@ -145,11 +148,11 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
-  
-  <div id="testimonial-contianer">
+
+	<div id="testimonial-contianer">
 		<TestimonialCarousel {testimonials} />
 	</div>
-  
+
 	<div id="social-media"><a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a></div>
 </div>
 
@@ -188,12 +191,11 @@
 		padding: 1rem;
 	}
 
-
 	#social-media {
 		text-align: center;
 		margin: 2rem auto;
-  }
-  
+	}
+
 	#testimonial-contianer {
 		margin: 5rem 0;
 	}
