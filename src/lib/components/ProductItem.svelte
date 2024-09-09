@@ -5,6 +5,7 @@
 	export let imageUrl;
 	export let amount = 0; // bindable external amount prop
 	export let productName;
+	export let details;
 
 	// Function to handle incrementing the amount
 	function increment() {
@@ -24,6 +25,9 @@
 	<img src={imageUrl} alt="" />
 	<div class="product-info">
 		<p>${price}</p>
+		{#if details}
+			<div class="font-sm italic my-2">{details}</div>
+		{/if}
 		<div class="amount-controls">
 			<button on:click={decrement}>-</button>
 			<span>{amount}</span>
