@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from 'svelte';
+
 	export let testimonials = [];
 	let current = 0;
 
@@ -17,6 +19,10 @@
 			current -= 1;
 		}
 	}
+
+	onMount(() => {
+		current = Math.ceil(Math.random() * testimonials.length);
+	});
 </script>
 
 <h3>Testimonials</h3>
