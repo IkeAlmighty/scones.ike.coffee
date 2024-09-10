@@ -6,19 +6,19 @@
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
-		'choco-chip-blueberry-scone-8count': {
-			name: 'Chocolate Chip Blueberry Scones (8 Count)',
+		'choco-chip-blueberry-scone-4count': {
+			name: 'Chocolate Chip Blueberry Scones (4 Count)',
 			imageUrl: '/scone_16count.jpg',
-			details: 'Chocolate chips and bluberries in eight delicious scones.',
+			details: 'Chocolate chips and bluberries in four delicious scones.',
 			amount: 0,
-			suggestedPrice: 19.5
+			suggestedPrice: 12
 		},
-		'choco-chip-blueberry-scone-single': {
-			name: 'Blueberry Lemon Scones (8 Count)',
+		'lemon-blueberry-scones-4count': {
+			name: 'Blueberry Lemon Scones (4 Count)',
 			imageUrl: '',
-			details: 'Lemon zest and blueberries in eight delicious scones.',
+			details: 'Lemon zest and blueberries in four delicious scones.',
 			amount: 0,
-			suggestedPrice: 7
+			suggestedPrice: 12
 		},
 		'delivery-fee': {
 			name: 'Delivery Fee',
@@ -31,6 +31,14 @@
 		{
 			author: 'Karen Ives',
 			text: 'Scones were awesome, folks like they are "moist" and not dried out like so many scones, mostly gone by the time I left.'
+		},
+		{
+			author: 'Slow Down',
+			text: "Ike makes the best scones I've ever had. Wow are they yummy! Also love Ike's warm and fun spirit - tops off the experience!"
+		},
+		{
+			author: 'Lisa',
+			text: 'The scones were so good! They were fluffy and flavorful. I had a warm blueberry chocolate scone and the flavor combo was super good.'
 		}
 	];
 
@@ -148,7 +156,7 @@
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
-	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchenex</div>
+	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchen</div>
 
 	<div id="testimonial-contianer">
 		<TestimonialCarousel {testimonials} />
