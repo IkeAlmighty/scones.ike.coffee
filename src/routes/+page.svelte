@@ -6,33 +6,19 @@
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
-		'choco-chip-blueberry-scone-2count': {
-			name: '(2 Count) Chocolate Chip Blueberry Scone',
-			imageUrl: '',
-			amount: 0,
-			details: 'Chocolate chips and blueberries in two delicious scones.',
-			suggestedPrice: 7
-		},
-		'blueberry-lemon-scone-2count': {
-			name: '(2 Count) Blueberry Lemon Scones',
-			imageUrl: '',
-			amount: 0,
-			details: 'Lemon zest and blueberries in two delicious scones.',
-			suggestedPrice: 7
-		},
-		'choco-chip-blueberry-scone-4count': {
-			name: 'Chocolate Chip Blueberry Scones (4 Count)',
+		'choco-chip-blueberry-scone': {
+			name: 'Chocolate Chip Blueberry Scone',
 			imageUrl: '/scone_16count.jpg',
-			details: 'Chocolate chips and bluberries in four delicious scones.',
 			amount: 0,
-			suggestedPrice: 12
+			details: 'Chocolate chips and blueberries baked into delicious scones.',
+			suggestedPrice: 3.5
 		},
-		'lemon-blueberry-scones-4count': {
-			name: 'Blueberry Lemon Scones (4 Count)',
+		'blueberry-lemon-scone': {
+			name: 'Blueberry Lemon Scone',
 			imageUrl: '',
-			details: 'Lemon zest and blueberries in four delicious scones.',
 			amount: 0,
-			suggestedPrice: 12
+			details: 'Lemon zest and blueberries baked into delicious scones.',
+			suggestedPrice: 3.5
 		},
 		'delivery-fee': {
 			name: 'Delivery Fee',
@@ -93,7 +79,7 @@
 <div id="page-container">
 	<h1>scones.ike.coffee</h1>
 	<div>Selling real scones for ike's imaginary coffee shop.</div>
-	<div class="font-sm">Use the + and - signs to add to your order:</div>
+	<div class="font-sm">A 15% discount is applied for orders of 4 and 8 scones.</div>
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
 			<ProductItem
@@ -145,35 +131,40 @@
 		</div>
 	</div>
 
+	<h3>Payment Summary</h3>
+
 	<div id={`payment-total-container-${device}`}>
 		<div>
-			<hr />
-			{#each Object.keys(products) as key}
-				{#if products[key].amount > 0}
-					<div>{products[key].name} x {products[key].amount}</div>
-				{/if}
-			{/each}
+			<div class="inline-block">
+				{#each Object.keys(products) as key}
+					{#if products[key].amount > 0}
+						<div>{products[key].name} x {products[key].amount}</div>
+					{/if}
+				{/each}
+			</div>
+
+			<div class="inline-block text-right">
+				<button
+					id="submitOrderButton"
+					disabled={!(customerContact && (customerAddress || !delivering))}
+					on:click={submitOrder}>Submit Order</button
+				>
+			</div>
 		</div>
 
 		<div>Suggested Payment: ${suggestedPayment}</div>
 
 		{#if !(customerContact && (customerAddress || !delivering))}
-			<div class="mt-2 font-sm danger-italic">
+			<div class="font-sm danger-italic">
 				I need your contact information before you click 'Submit Order'
 			</div>
 		{/if}
-
-		<button
-			id="submitOrderButton"
-			disabled={!(customerContact && (customerAddress || !delivering))}
-			on:click={submitOrder}>Submit Order</button
-		>
 	</div>
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
 	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchen</div>
 
-	<div id="testimonial-contianer">
+	<div id="testimonial-container">
 		<TestimonialCarousel {testimonials} />
 	</div>
 
@@ -190,19 +181,21 @@
 		margin: auto auto;
 	}
 
-	#payment-total-container-desktop {
-		font-size: 1rem;
-		margin-top: 3rem;
-	}
-
+	#payment-total-container-desktop,
 	#payment-total-container-mobile {
 		font-size: 1rem;
-		margin-top: 3rem;
+		position: sticky;
+		bottom: 0;
+		background-color: white;
+		border: solid 2px black;
+		padding: 1rem;
+		margin-top: 1rem;
+		border-radius: 5px;
 	}
 
 	#submitOrderButton {
-		padding: 1rem;
-		font-size: 1.2rem;
+		padding: 0.75rem;
+		font-size: 1rem;
 		margin: 1rem auto;
 	}
 
@@ -211,7 +204,7 @@
 	}
 
 	textarea {
-		width: 90%;
+		width: calc(100% - 2rem);
 		padding: 1rem;
 	}
 
@@ -220,7 +213,7 @@
 		margin: 2rem auto;
 	}
 
-	#testimonial-contianer {
+	#testimonial-container {
 		margin: 5rem 0;
 	}
 </style>

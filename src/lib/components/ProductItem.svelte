@@ -9,13 +9,15 @@
 
 	// Function to handle incrementing the amount
 	function increment() {
-		amount += 1;
+		if (amount < 2) amount = 2;
+		else amount *= 2;
 	}
 
 	// Function to handle decrementing the amount
 	function decrement() {
 		if (amount > 0) {
-			amount -= 1;
+			if (amount == 2) amount = 0;
+			else amount /= 2;
 		}
 	}
 </script>
