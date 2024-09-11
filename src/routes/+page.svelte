@@ -79,7 +79,6 @@
 <div id="page-container">
 	<h1>scones.ike.coffee</h1>
 	<div>Selling real scones for ike's imaginary coffee shop.</div>
-	<div class="font-sm">A 15% discount is applied for orders of 4 and 8 scones.</div>
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
 			<ProductItem
