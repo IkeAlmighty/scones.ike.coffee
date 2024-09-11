@@ -35,3 +35,7 @@ body {
 button:hover {
     cursor: pointer;
 }
+
+.text-right {
+    float: right;
+}

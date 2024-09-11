@@ -16,6 +16,8 @@ function calcSuggestedPayment(products) {
     let total = 0;
     Object.keys(products).forEach((key) => {
         total += products[key].suggestedPrice * products[key].amount;
+        if (products[key].amount >= 4) total = Math.round(total * 0.85);
+        if (products[key].amount >= 8) total = Math.round(total * 0.85);
     });
 
     return total;
