@@ -6,6 +6,20 @@
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
 
 	let products = {
+		'choco-chip-blueberry-scone-2count': {
+			name: '(2 Count) Chocolate Chip Blueberry Scone',
+			imageUrl: '',
+			amount: 0,
+			details: 'Chocolate chips and blueberries in two delicious scones.',
+			suggestedPrice: 7
+		},
+		'blueberry-lemon-scone-2count': {
+			name: '(2 Count) Blueberry Lemon Scones',
+			imageUrl: '',
+			amount: 0,
+			details: 'Lemon zest and blueberries in two delicious scones.',
+			suggestedPrice: 7
+		},
 		'choco-chip-blueberry-scone-4count': {
 			name: 'Chocolate Chip Blueberry Scones (4 Count)',
 			imageUrl: '/scone_16count.jpg',
@@ -79,6 +93,7 @@
 <div id="page-container">
 	<h1>scones.ike.coffee</h1>
 	<div>Selling real scones for ike's imaginary coffee shop.</div>
+	<div class="font-sm">Use the + and - signs to add to your order:</div>
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
 			<ProductItem
