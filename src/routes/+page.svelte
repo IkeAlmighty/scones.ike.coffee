@@ -20,6 +20,13 @@
 			details: 'Lemon zest and blueberries baked into delicious scones.',
 			suggestedPrice: 3.5
 		},
+		'wild-plum-honey-scone': {
+			name: 'Wild Plum & Honey Scone',
+			imageUrl: '',
+			amount: 0,
+			details: 'Wild minnesotan grown plums baked into honey laced scones.',
+			suggestedPrice: 3.5
+		},
 		'delivery-fee': {
 			name: 'Delivery Fee',
 			amount: 0,
