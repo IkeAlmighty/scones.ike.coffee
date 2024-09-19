@@ -46,6 +46,10 @@
 		{
 			author: 'Lisa',
 			text: 'The scones were so good! They were fluffy and flavorful. I had a warm blueberry chocolate scone and the flavor combo was super good.'
+		},
+		{
+			author: 'Julia',
+			text: "fuck I'm gonna eat all 4 today :'D :'D ... Oh shit they're delicious"
 		}
 	];
 
