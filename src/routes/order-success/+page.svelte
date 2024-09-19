@@ -4,15 +4,17 @@
 	import { onMount } from 'svelte';
 
 	let cart;
-	let paymentLink;
+	// let paymentLink = '';
 
 	page.subscribe((currentPage) => {
-		cart = JSON.parse(decodeURIComponent(new URLSearchParams(currentPage.url.search).get('cart')));
+		cart = JSON.parse(
+			decodeURIComponent(new URLSearchParams(currentPage.url.search).get('cart') || '{}')
+		);
 	});
 
-	onMount(() => {
-		paymentLink = generatePaymentLink(cart);
-	});
+	// onMount(() => {
+	// 	paymentLink = generatePaymentLink(cart);
+	// });
 </script>
 
 <h1>Thank You!!!!!</h1>
@@ -22,9 +24,9 @@
 {/each}
 
 <hr />
-<div>You can pay in person, or click the button below to open a special venmo link:</div>
+<div>You can pay in person, or pay via Venmo (@ike_kitchen).</div>
 
-<button><a href={paymentLink}>Pay Via Venmo</a></button>
+<!-- <button><a href={paymentLink}>Pay Via Venmo</a></button> -->
 
 <div><a href="/">&lt;-- back to order page</a></div>
 
