@@ -39,3 +39,7 @@ button:hover {
 .text-right {
     float: right;
 }
+
+.mb-1 {
+    margin-bottom: 1rem;
+}

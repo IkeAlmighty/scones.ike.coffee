@@ -68,7 +68,9 @@
 	// update delivery fee if the delivery toggle is selected
 	$: delivering ? (products['delivery-fee'].amount = 1) : (products['delivery-fee'].amount = 0);
 
-	async function submitOrder() {
+	async function submitOrder(e) {
+		e.target.disabled = true;
+		e.target.innerText = 'one moment...';
 		// send order to backend to be emailed to me:
 		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
@@ -82,6 +84,7 @@
 		} else {
 			console.log(await apiResponse.text());
 		}
+		e.target.disabled = false;
 	}
 </script>
 
@@ -157,7 +160,7 @@
 				<button
 					id="submitOrderButton"
 					disabled={!(customerContact && (customerAddress || !delivering))}
-					on:click={submitOrder}>Submit Order</button
+					on:click={(e) => submitOrder(e)}>Submit Order</button
 				>
 			</div>
 		</div>
@@ -165,9 +168,11 @@
 		<div>Suggested Payment: ${suggestedPayment}</div>
 
 		{#if !(customerContact && (customerAddress || !delivering))}
-			<div class="font-sm danger-italic">
+			<div class="font-sm danger-italic mb-1">
 				I need your contact information before you click 'Submit Order'
 			</div>
+		{:else}
+			<div class="my-2"></div>
 		{/if}
 	</div>
 
