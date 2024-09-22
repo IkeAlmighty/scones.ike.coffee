@@ -40,6 +40,10 @@ button:hover {
     float: right;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .mb-1 {
     margin-bottom: 1rem;
 }
