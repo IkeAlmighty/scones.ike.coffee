@@ -13,6 +13,8 @@
 	let clientSecret = '';
 	let currency = 'usd';
 
+	let submitButton;
+
 	onMount(async () => {
 		stripe = await loadStripe(PUBLIC_STRIPE_KEY);
 
@@ -24,6 +26,8 @@
 
 	async function handleSubmit(event) {
 		event.preventDefault();
+		submitButton.disabled = true;
+		submitButton.innerText = 'Running transaction...';
 
 		try {
 			const res = await fetch('/api/create-payment-intent', {
@@ -38,7 +42,6 @@
 			clientSecret = data.clientSecret;
 
 			//confirm payment with card element and client secret:
-
 			const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
 				payment_method: {
 					card: cardElement
@@ -47,19 +50,24 @@
 
 			if (error) {
 				console.log(error.message);
+				alert(error.message);
 			} else if (paymentIntent.status === 'succeeded') {
 				sideEffect(event);
-				console.log('payment succeeded'); //TODO: replace with redirect to success page
+				console.log('payment succeeded');
 			}
 		} catch (err) {
+			alert('payment failed');
 			console.error('payment failed'); //TODO: replace with user toast notification
 		}
+
+		submitButton.innerText = 'Submit Scone Order';
+		submitButton.disabled = false;
 	}
 </script>
 
 <form on:submit={handleSubmit}>
 	<div id="card-element"></div>
-	<button type="submit">Submit Scone Order</button>
+	<button bind:this={submitButton} type="submit">Submit Scone Order</button>
 </form>
 
 <style>
