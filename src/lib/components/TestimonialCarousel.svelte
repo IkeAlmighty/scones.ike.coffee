@@ -22,7 +22,6 @@
 
 	onMount(() => {
 		current = Math.ceil(Math.random() * testimonials.length);
-		console.log(current);
 	});
 </script>
 
