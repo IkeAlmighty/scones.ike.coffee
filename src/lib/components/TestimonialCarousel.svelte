@@ -22,6 +22,7 @@
 
 	onMount(() => {
 		current = Math.ceil(Math.random() * testimonials.length);
+		console.log(current);
 	});
 </script>
 
@@ -33,7 +34,9 @@
 		</div>
 	{/if}
 
-	<div id="center">"{testimonials[current].text}"<br /> - {testimonials[current].author}</div>
+	{#if testimonials[current]}
+		<div id="center">"{testimonials[current].text}"<br /> - {testimonials[current].author}</div>
+	{/if}
 
 	{#if testimonials.length > 1}
 		<div id="right">
