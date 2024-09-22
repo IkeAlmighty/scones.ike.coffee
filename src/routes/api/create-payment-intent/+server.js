@@ -15,6 +15,7 @@ export const POST = async ({ request }) => {
         const paymentIntent = await stripe.paymentIntents.create({
             amount,  // Amount in the smallest currency unit (e.g., cents)
             currency,  // Currency (e.g., 'usd')
+            confirmation_method: 'automatic',
         });
 
         return json({
