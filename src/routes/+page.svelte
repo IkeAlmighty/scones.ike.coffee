@@ -155,7 +155,6 @@
 				? 'and delivery address'
 				: ''}.
 		</div>
-		<button disabled={true}>Submit Order</button>
 	{:else if !payInPerson}
 		<div class="mt-2">Enter Payment Details:</div>
 		<StripePaymentElement cart={products} sideEffect={submitOrder} />
