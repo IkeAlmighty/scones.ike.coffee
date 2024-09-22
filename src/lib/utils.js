@@ -1,9 +1,10 @@
 import { writable } from "svelte/store";
+import { products } from '$lib/products.js'
 
-function stringifyCart(products) {
+function stringifyCart(cart) {
     let cartString = '';
-    Object.keys(products).forEach((key) => {
-        let product = products[key];
+    Object.keys(cart).forEach((key) => {
+        let product = cart[key];
         if (product.amount > 0) {
             cartString += `${product.name} x ${product.amount}\n`;
         }
@@ -12,19 +13,21 @@ function stringifyCart(products) {
     return cartString;
 }
 
-function calcSuggestedPayment(products) {
+function calcSuggestedPayment(cart) {
     let total = 0;
-    Object.keys(products).forEach((key) => {
-        total += products[key].suggestedPrice * products[key].amount;
-        if (products[key].amount >= 4) total = Math.round(total * 0.85);
-        if (products[key].amount >= 8) total = Math.round(total * 0.85);
+    Object.keys(cart).forEach((key) => {
+        // products is used for price determination, because it is not client editable when accessed from backend server routes.
+        // cart is a frontend copy of products that has been edited to reflect amount of each product desired by customer.
+        total += products[key].suggestedPrice * cart[key].amount;
+        if (cart[key].amount >= 4) total = Math.round(total * 0.85);
+        if (cart[key].amount >= 8) total = Math.round(total * 0.85);
     });
 
     return total;
 }
 
-function generatePaymentLink(products) {
-    return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(products)}&note=${stringifyCart(products)}`;
+function generatePaymentLink(cart) {
+    return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(cart)}&note=${stringifyCart(cart)}`;
 }
 
 export { calcSuggestedPayment, stringifyCart, generatePaymentLink }

@@ -4,35 +4,11 @@
 	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
 	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
+	import StripePaymentElement from '$lib/components/StripePaymentElement.svelte';
 
-	let products = {
-		'choco-chip-blueberry-scone': {
-			name: 'Chocolate Chip Blueberry Scone',
-			imageUrl: '/scone_16count.jpg',
-			amount: 0,
-			details: 'Chocolate chips and blueberries baked into delicious scones.',
-			suggestedPrice: 3.5
-		},
-		'blueberry-lemon-scone': {
-			name: 'Blueberry Lemon Scone',
-			imageUrl: '',
-			amount: 0,
-			details: 'Lemon zest and blueberries baked into delicious scones.',
-			suggestedPrice: 3.5
-		},
-		'wild-plum-honey-scone': {
-			name: 'Wild Plum & Honey Scone',
-			imageUrl: '',
-			amount: 0,
-			details: 'Wild minnesotan grown plums baked into honey laced scones.',
-			suggestedPrice: 3.5
-		},
-		'delivery-fee': {
-			name: 'Delivery Fee',
-			amount: 0,
-			suggestedPrice: 5
-		}
-	};
+	// a copy of products is used as a cart object, before being compared at checkout
+	// on the backend to the prices listed in the structure:
+	import { products } from '$lib/products.js';
 
 	const testimonials = [
 		{
@@ -64,6 +40,8 @@
 	let customerName;
 
 	let additionalDetails;
+
+	let payInPerson = false;
 
 	// update delivery fee if the delivery toggle is selected
 	$: delivering ? (products['delivery-fee'].amount = 1) : (products['delivery-fee'].amount = 0);
@@ -144,7 +122,14 @@
 		</div>
 	</div>
 
-	<h3>Payment Summary</h3>
+	<h3>Order Summary</h3>
+
+	<div>
+		<label>
+			Paying in Person
+			<input type="checkbox" bind:checked={payInPerson} />
+		</label>
+	</div>
 
 	<div id={`payment-total-container-${device}`}>
 		<div>
@@ -155,26 +140,30 @@
 					{/if}
 				{/each}
 			</div>
-
-			<div class="inline-block text-right">
-				<button
-					id="submitOrderButton"
-					disabled={!(customerContact && (customerAddress || !delivering))}
-					on:click={(e) => submitOrder(e)}>Submit Order</button
-				>
-			</div>
 		</div>
-
-		<div>Suggested Payment: ${suggestedPayment}</div>
-
-		{#if !(customerContact && (customerAddress || !delivering))}
-			<div class="font-sm danger-italic mb-1">
-				I need your contact information before you click 'Submit Order'
-			</div>
-		{:else}
-			<div class="my-2"></div>
-		{/if}
+		<hr />
+		<div>Payment Total: ${suggestedPayment}</div>
 	</div>
+
+	{#if suggestedPayment === 0 || (delivering && suggestedPayment === products['delivery-fee'].suggestedPrice)}
+		<div class="font-sm danger-italic text-center my-2">
+			Uh oh!!! Your cart is empty. Don't you want scones?
+		</div>
+	{:else if (delivering && !customerAddress) || !customerContact || !customerName}
+		<div class="font-sm danger-italic text-center my-2">
+			I can't take your order yet! Fill out your contact information {delivering
+				? 'and delivery address'
+				: ''}.
+		</div>
+		<button disabled={true}>Submit Order</button>
+	{:else if !payInPerson}
+		<div class="mt-2">Enter Payment Details:</div>
+		<StripePaymentElement cart={products} sideEffect={submitOrder} />
+	{:else}
+		<div class="mt-2">
+			<button id="paymentButton" on:click={submitOrder}>Submit Scone Order</button>
+		</div>
+	{/if}
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
 	<div class="font-sm italic">Registered as a cottage producer under Ike's Kitchen</div>
@@ -208,12 +197,6 @@
 		border-radius: 5px;
 	}
 
-	#submitOrderButton {
-		padding: 0.75rem;
-		font-size: 1rem;
-		margin: 1rem auto;
-	}
-
 	.product-item-container {
 		margin: 3rem auto;
 	}
@@ -221,6 +204,12 @@
 	textarea {
 		width: calc(100% - 2rem);
 		padding: 1rem;
+	}
+
+	#paymentButton {
+		padding: 0.5rem;
+		font-size: 1.5rem;
+		border-radius: 5px;
 	}
 
 	#social-media {
