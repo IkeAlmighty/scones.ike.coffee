@@ -9,6 +9,7 @@
 	// a copy of products is used as a cart object, before being compared at checkout
 	// on the backend to the prices listed in the structure:
 	import { products } from '$lib/products.js';
+	import DateSelector from '$lib/components/DateSelector.svelte';
 
 	const testimonials = [
 		{
@@ -38,6 +39,7 @@
 	let delivering = false;
 	let customerContact;
 	let customerName;
+	let deliveryDate;
 
 	let additionalDetails;
 
@@ -115,6 +117,11 @@
 				<input type="text" bind:value={customerName} /></label
 			>
 		</div>
+
+		<div class="my-1">
+			<DateSelector bind:date={deliveryDate} />
+		</div>
+
 		<div>
 			<div class="mt-2">Additional Details</div>
 			<div class="font-sm">When do you want them? any special instructions?</div>
