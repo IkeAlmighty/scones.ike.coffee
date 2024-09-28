@@ -172,6 +172,30 @@
 		<TestimonialCarousel {testimonials} />
 	</div>
 
+	<div class="italic mt-2 text-center">
+		"Oh, gather round my friends,<br />
+		let me tell you a tale, <br />
+		Of a scone so divine, <br />
+		it'll never grow stale.<br />
+		<br />
+		With zest of a lemon, <br />
+		oh so bright, <br />
+		and blueberries bursting, <br />
+		a heavenly sight.<br />
+		<br />
+		Golden and warm, <br />
+		from the oven it came,<br />
+		A treat so delicious, <br />
+		it put others to shame.<br />
+		<br />
+		So raise it up high, <br />
+		in the morning light, <br />
+		For the lemon blueberry scone is a true delight!<br />
+		Thank you for the tasty treat, ike!"<br />
+		<br />
+	</div>
+	<div class="my-2 text-center">- written by Mud, a valued customer.</div>
+
 	<div id="social-media"><a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a></div>
 </div>
 
