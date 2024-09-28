@@ -7,18 +7,21 @@
 	export let productName;
 	export let details;
 
+	const batchCounts = [0, 3, 6, 12, 24];
+	let batchCountIndex = 0;
+
 	// Function to handle incrementing the amount
 	function increment() {
-		if (amount < 2) amount = 2;
-		else amount *= 2;
+		if (batchCountIndex === batchCounts.length - 1) return;
+		batchCountIndex += 1;
+		amount = batchCounts[batchCountIndex];
 	}
 
 	// Function to handle decrementing the amount
 	function decrement() {
-		if (amount > 0) {
-			if (amount == 2) amount = 0;
-			else amount /= 2;
-		}
+		if (batchCountIndex === 0) return;
+		batchCountIndex -= 1;
+		amount = batchCounts[batchCountIndex];
 	}
 </script>
 

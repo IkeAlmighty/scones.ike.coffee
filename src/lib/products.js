@@ -12,7 +12,7 @@ export const products = {
     },
     'blueberry-lemon-scone': {
         name: 'Blueberry Lemon Scone',
-        imageUrl: '',
+        imageUrl: '/lemon-blueberry.jpg',
         amount: 0,
         details: 'Lemon zest and blueberries baked into delicious scones.',
         suggestedPrice: 3.5
