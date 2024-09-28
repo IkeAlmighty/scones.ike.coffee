@@ -75,6 +75,7 @@
 		<div class="product-item-container">
 			<ProductItem
 				productName={products[productKey].name}
+				shorthandName="scone"
 				imageUrl={products[productKey].imageUrl}
 				price={products[productKey].suggestedPrice}
 				details={products[productKey].details}

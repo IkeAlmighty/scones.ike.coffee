@@ -6,6 +6,7 @@
 	export let amount = 0; // bindable external amount prop
 	export let productName;
 	export let details;
+	export let shorthandName = productName;
 
 	const batchCounts = [0, 3, 6, 12, 24];
 	let batchCountIndex = 0;
@@ -29,7 +30,7 @@
 	<div id="product-name">{productName}</div>
 	<img src={imageUrl} alt="" />
 	<div class="product-info">
-		<p>${price}</p>
+		<p>${price} per {shorthandName}</p>
 		{#if details}
 			<div class="font-sm italic my-2">{details}</div>
 		{/if}
