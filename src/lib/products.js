@@ -19,7 +19,7 @@ export const products = {
     },
     'earl-grey-scone': {
         name: 'Earl Grey Scone',
-        imageUrl: '',
+        imageUrl: '/earlgrey.jpg',
         amount: 0,
         details: 'Earl Grey Tea from Anahata Herbals in Duluth, baked into delicious scones with an Earl Grey glaze on top.',
         suggestedPrice: 2.75
