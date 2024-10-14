@@ -6,19 +6,23 @@
 	export let amount = 0; // bindable external amount prop
 	export let productName;
 	export let details;
+	export let shorthandName = productName;
+
+	const batchCounts = [0, 3, 6, 12, 24];
+	let batchCountIndex = 0;
 
 	// Function to handle incrementing the amount
 	function increment() {
-		if (amount < 2) amount = 2;
-		else amount *= 2;
+		if (batchCountIndex === batchCounts.length - 1) return;
+		batchCountIndex += 1;
+		amount = batchCounts[batchCountIndex];
 	}
 
 	// Function to handle decrementing the amount
 	function decrement() {
-		if (amount > 0) {
-			if (amount == 2) amount = 0;
-			else amount /= 2;
-		}
+		if (batchCountIndex === 0) return;
+		batchCountIndex -= 1;
+		amount = batchCounts[batchCountIndex];
 	}
 </script>
 
@@ -26,7 +30,7 @@
 	<div id="product-name">{productName}</div>
 	<img src={imageUrl} alt="" />
 	<div class="product-info">
-		<p>${price}</p>
+		<p>${price} per {shorthandName}</p>
 		{#if details}
 			<div class="font-sm italic my-2">{details}</div>
 		{/if}

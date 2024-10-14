@@ -8,21 +8,21 @@ export const products = {
         imageUrl: '/scone_16count.jpg',
         amount: 0,
         details: 'Chocolate chips and blueberries baked into delicious scones.',
-        suggestedPrice: 3.5
+        suggestedPrice: 2.75
     },
     'blueberry-lemon-scone': {
         name: 'Blueberry Lemon Scone',
-        imageUrl: '',
+        imageUrl: '/lemon-blueberry.jpg',
         amount: 0,
         details: 'Lemon zest and blueberries baked into delicious scones.',
-        suggestedPrice: 3.5
+        suggestedPrice: 2.75
     },
-    'wild-plum-honey-scone': {
-        name: 'Wild Plum & Honey Scone',
-        imageUrl: '',
+    'earl-grey-scone': {
+        name: 'Earl Grey Scone',
+        imageUrl: '/earlgrey.jpg',
         amount: 0,
-        details: 'Wild minnesotan grown plums baked into honey laced scones.',
-        suggestedPrice: 3.5
+        details: 'Earl Grey Tea from Anahata Herbals in Duluth, baked into delicious scones with an Earl Grey glaze on top.',
+        suggestedPrice: 2.75
     },
     'delivery-fee': {
         name: 'Delivery Fee',

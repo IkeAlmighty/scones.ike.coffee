@@ -57,7 +57,7 @@
 		e.target.disabled = true;
 		e.target.innerText = 'one moment...';
 		// send order to backend to be emailed to me:
-		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nAddition Details:\n${additionalDetails}`;
+		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nPickup/Delivery Date: ${deliveryDate}\nPaid: ${payInPerson ? 'Paying in person.' : 'yes'}\n\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
 			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(products)}` }),
@@ -82,6 +82,7 @@
 		<div class="product-item-container">
 			<ProductItem
 				productName={products[productKey].name}
+				shorthandName="scone"
 				imageUrl={products[productKey].imageUrl}
 				price={products[productKey].suggestedPrice}
 				details={products[productKey].details}
@@ -128,8 +129,7 @@
 		</div>
 
 		<div>
-			<div class="mt-2">Additional Details</div>
-			<div class="font-sm">When do you want them? any special instructions?</div>
+			<div class="font-sm">Any special instructions? (optional)</div>
 			<textarea bind:value={additionalDetails} />
 		</div>
 	</div>
@@ -155,20 +155,25 @@
 		</div>
 		<hr />
 		<div>Payment Total: ${suggestedPayment}</div>
-		<div class="text-sm italic">To be delivered on {prettifyDate(deliveryDate)}</div>
+		<div class="text-sm italic">
+			To be {delivering ? 'delivered' : 'picked up'} on {prettifyDate(deliveryDate)}
+		</div>
 	</div>
 
 	{#if suggestedPayment === 0 || (delivering && suggestedPayment === products['delivery-fee'].suggestedPrice)}
 		<div class="font-sm danger-italic text-center my-2">
 			Uh oh!!! Your cart is empty. Don't you want scones?
 		</div>
-	{:else if (delivering && !customerAddress) || !customerContact || !customerName}
+	{:else if delivering && !customerAddress}
+		<div class="font-sm danger-italic text-center my-2">Please fill out your delivery address.</div>
+	{:else if !customerContact || !customerName}
 		<div class="font-sm danger-italic text-center my-2">
-			I can't take your order yet! Fill out your contact information {delivering
-				? 'and delivery address'
-				: ''}.
+			Please fill out your contact information.
 		</div>
-		<button disabled={true}>Submit Order</button>
+	{:else if !deliveryDate}
+		<div class="font-sm danger-italic text-center my-2">
+			Please choose a day for pickup/delivery.
+		</div>
 	{:else if !payInPerson}
 		<div class="mt-2">Enter Payment Details:</div>
 		<StripePaymentElement cart={products} sideEffect={submitOrder} />
@@ -184,6 +189,30 @@
 	<div id="testimonial-container">
 		<TestimonialCarousel {testimonials} />
 	</div>
+
+	<div class="italic mt-2 text-center">
+		"Oh, gather round my friends,<br />
+		let me tell you a tale, <br />
+		Of a scone so divine, <br />
+		it'll never grow stale.<br />
+		<br />
+		With zest of a lemon, <br />
+		oh so bright, <br />
+		and blueberries bursting, <br />
+		a heavenly sight.<br />
+		<br />
+		Golden and warm, <br />
+		from the oven it came,<br />
+		A treat so delicious, <br />
+		it put others to shame.<br />
+		<br />
+		So raise it up high, <br />
+		in the morning light, <br />
+		For the lemon blueberry scone is a true delight!<br />
+		Thank you for the tasty treat, ike!"<br />
+		<br />
+	</div>
+	<div class="my-2 text-center">- written by Mud, a valued customer.</div>
 
 	<div id="social-media"><a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a></div>
 </div>

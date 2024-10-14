@@ -32,6 +32,10 @@ body {
     margin-right: auto;
 }
 
+.mt-10 {
+    margin-top: 10rem;
+}
+
 .font-sm {
     font-size: small;
 }

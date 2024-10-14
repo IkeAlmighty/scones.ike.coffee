@@ -19,7 +19,7 @@ export async function POST({ request }) {
     const options = {
         from: GOOGLE_APP_USER,
         to: GOOGLE_APP_USER,
-        subject: `ORDER: ${Date.now()}`,
+        subject: `ORDER: ${message.slice(0, 10) || ""}-${Date.now().toString().slice(5)}`,
         text: message
     }
 

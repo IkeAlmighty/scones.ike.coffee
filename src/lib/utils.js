@@ -19,8 +19,8 @@ function calcSuggestedPayment(cart) {
         // products is used for price determination, because it is not client editable when accessed from backend server routes.
         // cart is a frontend copy of products that has been edited to reflect amount of each product desired by customer.
         total += products[key].suggestedPrice * cart[key].amount;
-        if (cart[key].amount >= 4) total = Math.round(total * 0.85);
-        if (cart[key].amount >= 8) total = Math.round(total * 0.85);
+        if (cart[key].amount >= 6) total = Math.round(total * 0.85);
+        if (cart[key].amount >= 12) total = Math.round(total * 0.85);
     });
 
     return total;
