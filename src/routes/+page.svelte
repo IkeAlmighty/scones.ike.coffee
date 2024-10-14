@@ -3,7 +3,12 @@
 	import ProductItem from '$lib/components/ProductItem.svelte';
 	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
-	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
+	import {
+		stringifyCart,
+		calcSuggestedPayment,
+		generatePaymentLink,
+		prettifyDate
+	} from '$lib/utils.js';
 	import StripePaymentElement from '$lib/components/StripePaymentElement.svelte';
 
 	// a copy of products is used as a cart object, before being compared at checkout
@@ -119,7 +124,7 @@
 		</div>
 
 		<div class="my-1">
-			<DateSelector bind:date={deliveryDate} />
+			<DateSelector bind:dateSelected={deliveryDate} />
 		</div>
 
 		<div>
@@ -150,6 +155,7 @@
 		</div>
 		<hr />
 		<div>Payment Total: ${suggestedPayment}</div>
+		<div class="text-sm italic">To be delivered on {prettifyDate(deliveryDate)}</div>
 	</div>
 
 	{#if suggestedPayment === 0 || (delivering && suggestedPayment === products['delivery-fee'].suggestedPrice)}

@@ -19,6 +19,19 @@ body {
     margin-top: 1rem;
 }
 
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.mx-1 {
+    margin: 0 1rem;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .font-sm {
     font-size: small;
 }

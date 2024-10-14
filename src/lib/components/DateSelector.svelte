@@ -1,7 +1,11 @@
 <script>
-	export let date;
+	import { prettifyDate } from '$lib/utils';
 
-	const days = ['Monday', 'Tuesday', 'Friday', 'Saturday', 'Sunday'];
+	export let dateSelected;
+
+	let days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+	const today = new Date();
+	let weekOfDate = new Date(new Date().setDate(today.getDate() - today.getDay()));
 
 	let optionsHidden = true;
 	let selectedOption;
@@ -10,46 +14,83 @@
 		selectedOption = day;
 		optionsHidden = true;
 	}
+
+	function incrWeekOfDate() {
+		weekOfDate = createDateFromOffset(weekOfDate, 7);
+	}
+
+	function decrWeekOfDate() {
+		weekOfDate = createDateFromOffset(weekOfDate, -7);
+	}
+
+	function createDateFromOffset(date, offset) {
+		return new Date(new Date(date).setDate(date.getDate() + offset));
+	}
 </script>
 
-<button id="selection-box" on:click={() => (optionsHidden = !optionsHidden)}>
-	Delivery Day: {selectedOption || ''}
-	<span class="text-right">&#11206;</span>
-</button>
+<div>Choose a date for pickup/delivery:</div>
 
-{#if !optionsHidden}
-	<div id="options-container">
-		{#each days as day}
-			<button class="option" on:click={() => handleOptionSelection(day)}>{day}</button>
+<div id="date-container">
+	<div>
+		<div>
+			week of {prettifyDate(weekOfDate)}
+
+			<button class="next-prev-btn" on:click={incrWeekOfDate}>next week</button>
+			{#if createDateFromOffset(weekOfDate, -1).getTime() > today.getTime()}
+				<button class="next-prev-btn" on:click={decrWeekOfDate}>prev week</button>
+			{/if}
+		</div>
+	</div>
+	<div class="my-1">
+		{#each days.map( (string, index) => ({ string, index, date: createDateFromOffset(weekOfDate, index) }) ) as day}
+			<span>
+				<button
+					class="date-btn"
+					disabled={day.date.getTime() < today.getTime() + 86400000}
+					on:click={() => (dateSelected = day.date)}
+				>
+					{day.string}
+				</button>
+				<div class="font-sm text-center">
+					{prettifyDate(day.date)}
+				</div>
+			</span>
 		{/each}
 	</div>
-{/if}
+
+	<div class="text-right my-2"></div>
+</div>
 
 <style>
-	#options-container {
-		position: absolute;
-		background-color: white;
-		width: calc(100% - 1.1rem);
-		border: 1px solid black;
+	#date-container {
+		padding: 1rem 0;
 	}
 
-	#selection-box {
-		border: 1px solid black;
-		padding: 0.25rem;
-		border-radius: 5px;
-		cursor: pointer;
-		width: 100%;
-		text-align: left;
-		font-family: 'OldNewspaperTypes';
+	#date-container span {
+		display: inline-block;
+		margin-right: 1rem;
 	}
 
-	.option {
-		display: block;
+	button {
 		background-color: inherit;
-		width: 100%;
+		padding: 0.25rem 0.5rem;
+		margin: 0.25rem 0;
+	}
+
+	button:disabled {
+		background-color: black;
+		cursor: default;
+	}
+
+	.date-btn {
+		width: 4.5rem;
+		margin: 0 0;
+		margin-top: 0.75rem;
+	}
+
+	.next-prev-btn {
 		border: none;
-		text-align: left;
-		padding: 0.5rem;
-		margin: 0;
+		text-decoration: underline;
+		float: right;
 	}
 </style>

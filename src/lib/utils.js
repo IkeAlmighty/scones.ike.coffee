@@ -30,4 +30,9 @@ function generatePaymentLink(cart) {
     return `https://venmo.com/?txn=pay&audience=public&recipients=ike_kitchen&amount=${calcSuggestedPayment(cart)}&note=${stringifyCart(cart)}`;
 }
 
-export { calcSuggestedPayment, stringifyCart, generatePaymentLink }
+function prettifyDate(date) {
+    if (date) return `${date.getMonth() + 1} / ${date.getDate()}`;
+    else return '- / -';
+}
+
+export { calcSuggestedPayment, stringifyCart, generatePaymentLink, prettifyDate }
