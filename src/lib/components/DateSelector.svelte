@@ -45,7 +45,7 @@
 		{#each days.map( (string, index) => ({ string, index, date: createDateFromOffset(weekOfDate, index) }) ) as day}
 			<span>
 				<button
-					class="date-btn"
+					class={`date-btn ${dateSelected ? (dateSelected.getTime() === day.date.getTime() ? 'selected-btn' : '') : ''}`}
 					disabled={day.date.getTime() < today.getTime() + 86400000}
 					on:click={() => (dateSelected = day.date)}
 				>
@@ -86,6 +86,11 @@
 		width: 4.5rem;
 		margin: 0 0;
 		margin-top: 0.75rem;
+	}
+
+	.selected-btn {
+		background-color: lightgray;
+		font-size: 1.2rem;
 	}
 
 	.next-prev-btn {
