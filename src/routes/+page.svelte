@@ -76,8 +76,17 @@
 <svelte:window bind:innerWidth />
 
 <div id="page-container">
-	<h1>scones.ike.coffee</h1>
-	<div>Selling real scones for ike's imaginary coffee shop.</div>
+	<div id="header">
+		<!-- <h1>scones.ike.coffee</h1> -->
+		<img
+			id="logo-img"
+			src="/sconelogo.jpg"
+			alt="logo depicting a bike with scones the front basket"
+		/>
+		<div>Baking & delivering scones to S. Minneapolis via bicycle.</div>
+	</div>
+	<hr />
+
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
 			<ProductItem
@@ -227,6 +236,15 @@
 		margin: auto auto;
 	}
 
+	#logo-img {
+		display: inline-block;
+		width: 200px;
+	}
+
+	#header {
+		text-align: center;
+	}
+
 	#payment-total-container-desktop,
 	#payment-total-container-mobile {
 		font-size: 1rem;
@@ -240,7 +258,7 @@
 	}
 
 	.product-item-container {
-		margin: 3rem auto;
+		margin: 2rem auto 4rem auto;
 	}
 
 	textarea {
