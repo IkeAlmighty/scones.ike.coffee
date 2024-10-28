@@ -7,8 +7,10 @@
 	export let productName;
 	export let details;
 	export let shorthandName = productName;
+	export let additionalLink;
+	export let additionalLinkText;
+	export let batchCounts;
 
-	const batchCounts = [0, 3, 6, 12, 24];
 	let batchCountIndex = 0;
 
 	// Function to handle incrementing the amount
@@ -27,7 +29,11 @@
 </script>
 
 <div class="product-item">
-	<div id="product-name">{productName}</div>
+	<div id="product-name">
+		{productName}
+		{#if additionalLink}
+			| <a href={additionalLink}>{additionalLinkText}</a>{/if}
+	</div>
 	<img src={imageUrl} alt="" />
 	<div class="product-info">
 		<p>${price} per {shorthandName}</p>
