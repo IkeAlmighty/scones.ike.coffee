@@ -18,6 +18,10 @@ const testimonials = [
     {
         author: 'Bronwyn',
         text: "That was literally the best scone I've ever had wtf",
+    },
+    {
+        author: 'Dr. Marie',
+        text: "ike's scones are so buttery and delicious, you will want to run away and start a new life with them."
     }
 ];
 
