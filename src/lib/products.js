@@ -35,7 +35,7 @@ export const products = {
         singular: 'mug',
         imageUrl: '/okay.gif',
         amount: 0,
-        details: 'A mug made Will (IG is piss.etc)',
+        details: 'A mug made by Will',
         suggestedPrice: 35,
         additionalLink: 'https://www.instagram.com/piss.etc',
         additionalLinkText: 'Made by @piss.etc on Instagram',
