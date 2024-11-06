@@ -1,15 +1,15 @@
 import Stripe from 'stripe';
 import { json } from '@sveltejs/kit';
 import { PRIVATE_STRIPE_KEY } from '$env/static/private';
-import { calcSuggestedPayment } from '$lib/utils';
+import { validatePaymentAmount } from '$lib/utils';
 
 const stripe = new Stripe(PRIVATE_STRIPE_KEY);
 
 export const POST = async ({ request }) => {
     try {
-        const { cart, currency } = await request.json();
+        const { cart, currency, amount } = await request.json();
 
-        const amount = calcSuggestedPayment(cart) * 100;
+        if (!validatePaymentAmount(cart, amount)) throw Error({ message: 'invalid payment amount.' })
 
         // Create a payment intent
         const paymentIntent = await stripe.paymentIntents.create({
@@ -21,6 +21,7 @@ export const POST = async ({ request }) => {
             clientSecret: paymentIntent.client_secret,
         });
     } catch (error) {
+        console.log(error.message)
         return json({ error: error.message }, { status: 400 });
     }
 }

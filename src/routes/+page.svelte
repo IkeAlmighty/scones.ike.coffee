@@ -17,7 +17,8 @@
 	import DateSelector from '$lib/components/DateSelector.svelte';
 	import testimonials from '$lib/testimonials.js';
 
-	$: suggestedPayment = calcSuggestedPayment(products);
+	let cart = { ...products };
+	$: suggestedPayment = calcSuggestedPayment(cart);
 
 	let innerWidth = 0;
 	$: device = innerWidth < 697 ? 'mobile' : 'desktop';
@@ -33,7 +34,7 @@
 	let payInPerson = false;
 
 	// update delivery fee if the delivery toggle is selected
-	$: delivering ? (products['delivery-fee'].amount = 1) : (products['delivery-fee'].amount = 0);
+	$: delivering ? (cart['delivery-fee'].amount = 1) : (cart['delivery-fee'].amount = 0);
 
 	async function submitOrder(e) {
 		e.target.disabled = true;
@@ -42,12 +43,12 @@
 		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nPickup/Delivery Date: ${deliveryDate}\nPaid: ${payInPerson ? 'Paying in person.' : 'yes'}\n\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(products)}` }),
+			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(cart)}` }),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
 		if (apiResponse.ok) {
-			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(products))}`);
+			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(cart))}`);
 		} else {
 			console.log(await apiResponse.text());
 		}
@@ -77,7 +78,7 @@
 				imageUrl={products[productKey].imageUrl}
 				price={products[productKey].suggestedPrice}
 				details={products[productKey].details}
-				bind:amount={products[productKey].amount}
+				bind:amount={cart[productKey].amount}
 			/>
 			<hr class="mt-2" />
 		</div>
@@ -137,15 +138,15 @@
 	<div id={`payment-total-container-${device}`}>
 		<div>
 			<div class="inline-block">
-				{#each Object.keys(products) as key}
-					{#if products[key].amount > 0}
-						<div>{products[key].name} x {products[key].amount}</div>
+				{#each Object.keys(cart) as key}
+					{#if cart[key].amount > 0}
+						<div>{cart[key].name} x {cart[key].amount}</div>
 					{/if}
 				{/each}
 			</div>
 		</div>
 		<hr />
-		<div>Payment Total: ${suggestedPayment}</div>
+		<div>Suggested Payment: ${suggestedPayment}</div>
 		<div class="text-sm italic">
 			To be {delivering ? 'delivered' : 'picked up'} on {prettifyDate(deliveryDate)}
 		</div>
@@ -167,7 +168,7 @@
 		</div>
 	{:else if !payInPerson}
 		<div class="mt-2">Enter Payment Details:</div>
-		<StripePaymentElement cart={products} sideEffect={submitOrder} />
+		<StripePaymentElement {cart} sideEffect={submitOrder} />
 	{:else}
 		<div class="mt-2">
 			<button id="paymentButton" on:click={submitOrder}>Submit Scone Order</button>
