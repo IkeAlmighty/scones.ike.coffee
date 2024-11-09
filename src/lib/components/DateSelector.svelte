@@ -6,7 +6,7 @@
 	let days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 	const today = new Date();
 	let weekOfDate = new Date(new Date().setDate(today.getDate() - today.getDay()));
-	if (today.getDay() === 5) incrWeekOfDate();
+	if (today.getDay() == 6) incrWeekOfDate();
 
 	let optionsHidden = true;
 	let selectedOption;
