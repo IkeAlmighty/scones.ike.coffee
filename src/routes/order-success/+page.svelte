@@ -13,7 +13,12 @@
 	});
 
 	async function getImageSources() {
-		const imagesSources = await fetch('/api/bulletinboard-image-links');
+		const listFilesResponse = await fetch('/api/bulletinboard/list-all');
+		const { files, downloadUrl } = await listFilesResponse.json();
+		console.log(files);
+		const imageSrcs = files.map((file) => `${downloadUrl}/file/scones-ike-coffee/${file.fileName}`);
+
+		return imageSrcs;
 	}
 </script>
 
