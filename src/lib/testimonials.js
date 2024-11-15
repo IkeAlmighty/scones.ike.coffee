@@ -13,7 +13,7 @@ const testimonials = [
     },
     {
         author: 'Julia',
-        text: "fuck I'm gonna eat all 4 today :'D :'D ... Oh shit they're delicious"
+        text: "fuck I'm gonna eat all 4 today 😂😂... Oh shit they're delicious"
     },
     {
         author: 'Bronwyn',
@@ -22,6 +22,10 @@ const testimonials = [
     {
         author: 'Dr. Marie',
         text: "ike's scones are so buttery and delicious, you will want to run away and start a new life with them."
+    },
+    {
+        author: 'Yasmina',
+        text: 'I left the box of scones unattended and my bf ate 6...😔'
     }
 ];
 
