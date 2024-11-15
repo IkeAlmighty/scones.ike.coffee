@@ -3,33 +3,22 @@
 	import ProductItem from '$lib/components/ProductItem.svelte';
 	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
-	import { stringifyCart, calcSuggestedPayment, generatePaymentLink } from '$lib/utils.js';
+	import {
+		stringifyCart,
+		calcSuggestedPayment,
+		generatePaymentLink,
+		prettifyDate
+	} from '$lib/utils.js';
 	import StripePaymentElement from '$lib/components/StripePaymentElement.svelte';
 
 	// a copy of products is used as a cart object, before being compared at checkout
 	// on the backend to the prices listed in the structure:
 	import { products } from '$lib/products.js';
+	import DateSelector from '$lib/components/DateSelector.svelte';
+	import testimonials from '$lib/testimonials.js';
 
-	const testimonials = [
-		{
-			author: 'Karen Ives',
-			text: 'Scones were awesome, folks like they are "moist" and not dried out like so many scones, mostly gone by the time I left.'
-		},
-		{
-			author: 'Slow Down',
-			text: "Ike makes the best scones I've ever had. Wow are they yummy! Also love Ike's warm and fun spirit - tops off the experience!"
-		},
-		{
-			author: 'Lisa',
-			text: 'The scones were so good! They were fluffy and flavorful. I had a warm blueberry chocolate scone and the flavor combo was super good.'
-		},
-		{
-			author: 'Julia',
-			text: "fuck I'm gonna eat all 4 today :'D :'D ... Oh shit they're delicious"
-		}
-	];
-
-	$: suggestedPayment = calcSuggestedPayment(products);
+	let cart = { ...products };
+	$: suggestedPayment = calcSuggestedPayment(cart);
 
 	let innerWidth = 0;
 	$: device = innerWidth < 697 ? 'mobile' : 'desktop';
@@ -38,27 +27,28 @@
 	let delivering = false;
 	let customerContact;
 	let customerName;
+	let deliveryDate;
 
 	let additionalDetails;
 
 	let payInPerson = false;
 
 	// update delivery fee if the delivery toggle is selected
-	$: delivering ? (products['delivery-fee'].amount = 1) : (products['delivery-fee'].amount = 0);
+	$: delivering ? (cart['delivery-fee'].amount = 1) : (cart['delivery-fee'].amount = 0);
 
 	async function submitOrder(e) {
 		e.target.disabled = true;
 		e.target.innerText = 'one moment...';
 		// send order to backend to be emailed to me:
-		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nAddition Details:\n${additionalDetails}`;
+		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nPickup/Delivery Date: ${deliveryDate}\nPaid: ${payInPerson ? 'Paying in person.' : 'yes'}\n\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(products)}` }),
+			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(cart)}` }),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
 		if (apiResponse.ok) {
-			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(products))}`);
+			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(cart))}`);
 		} else {
 			console.log(await apiResponse.text());
 		}
@@ -69,8 +59,17 @@
 <svelte:window bind:innerWidth />
 
 <div id="page-container">
-	<h1>scones.ike.coffee</h1>
-	<div>Selling real scones for ike's imaginary coffee shop.</div>
+	<div id="header">
+		<!-- <h1>scones.ike.coffee</h1> -->
+		<img
+			id="logo-img"
+			src="/sconelogo.jpg"
+			alt="logo depicting a bike with scones the front basket"
+		/>
+		<div>Baking & delivering scones to S. Minneapolis via bicycle.</div>
+	</div>
+	<hr />
+
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
 			<ProductItem
@@ -79,7 +78,7 @@
 				imageUrl={products[productKey].imageUrl}
 				price={products[productKey].suggestedPrice}
 				details={products[productKey].details}
-				bind:amount={products[productKey].amount}
+				bind:amount={cart[productKey].amount}
 			/>
 			<hr class="mt-2" />
 		</div>
@@ -116,9 +115,13 @@
 				<input type="text" bind:value={customerName} /></label
 			>
 		</div>
+
+		<div class="my-1">
+			<DateSelector bind:dateSelected={deliveryDate} />
+		</div>
+
 		<div>
-			<div class="mt-2">Additional Details</div>
-			<div class="font-sm">When do you want them? any special instructions?</div>
+			<div class="font-sm">Any special instructions? (optional)</div>
 			<textarea bind:value={additionalDetails} />
 		</div>
 	</div>
@@ -135,31 +138,37 @@
 	<div id={`payment-total-container-${device}`}>
 		<div>
 			<div class="inline-block">
-				{#each Object.keys(products) as key}
-					{#if products[key].amount > 0}
-						<div>{products[key].name} x {products[key].amount}</div>
+				{#each Object.keys(cart) as key}
+					{#if cart[key].amount > 0}
+						<div>{cart[key].name} x {cart[key].amount}</div>
 					{/if}
 				{/each}
 			</div>
 		</div>
 		<hr />
-		<div>Payment Total: ${suggestedPayment}</div>
+		<div>Suggested Payment: ${suggestedPayment}</div>
+		<div class="text-sm italic">
+			To be {delivering ? 'delivered' : 'picked up'} on {prettifyDate(deliveryDate)}
+		</div>
 	</div>
 
 	{#if suggestedPayment === 0 || (delivering && suggestedPayment === products['delivery-fee'].suggestedPrice)}
 		<div class="font-sm danger-italic text-center my-2">
 			Uh oh!!! Your cart is empty. Don't you want scones?
 		</div>
-	{:else if (delivering && !customerAddress) || !customerContact || !customerName}
+	{:else if delivering && !customerAddress}
+		<div class="font-sm danger-italic text-center my-2">Please fill out your delivery address.</div>
+	{:else if !customerContact || !customerName}
 		<div class="font-sm danger-italic text-center my-2">
-			I can't take your order yet! Fill out your contact information {delivering
-				? 'and delivery address'
-				: ''}.
+			Please fill out your contact information.
 		</div>
-		<button disabled={true}>Submit Order</button>
+	{:else if !deliveryDate}
+		<div class="font-sm danger-italic text-center my-2">
+			Please choose a day for pickup/delivery.
+		</div>
 	{:else if !payInPerson}
 		<div class="mt-2">Enter Payment Details:</div>
-		<StripePaymentElement cart={products} sideEffect={submitOrder} />
+		<StripePaymentElement {cart} sideEffect={submitOrder} />
 	{:else}
 		<div class="mt-2">
 			<button id="paymentButton" on:click={submitOrder}>Submit Scone Order</button>
@@ -210,6 +219,15 @@
 		margin: auto auto;
 	}
 
+	#logo-img {
+		display: inline-block;
+		width: 200px;
+	}
+
+	#header {
+		text-align: center;
+	}
+
 	#payment-total-container-desktop,
 	#payment-total-container-mobile {
 		font-size: 1rem;
@@ -223,7 +241,7 @@
 	}
 
 	.product-item-container {
-		margin: 3rem auto;
+		margin: 2rem auto 4rem auto;
 	}
 
 	textarea {

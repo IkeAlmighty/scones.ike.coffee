@@ -33,9 +33,11 @@
 		</div>
 	{/if}
 
-	{#if testimonials[current]}
-		<div id="center">"{testimonials[current].text}"<br /> - {testimonials[current].author}</div>
-	{/if}
+	<div id="text-container">
+		{#if testimonials[current]}
+			<div id="center">"{testimonials[current].text}"<br /> - {testimonials[current].author}</div>
+		{/if}
+	</div>
 
 	{#if testimonials.length > 1}
 		<div id="right">
@@ -54,6 +56,14 @@
 		text-align: right;
 		font-size: small;
 	}
+
+	#text-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		min-height: 150px;
+	}
+
 	#center {
 		margin: 1rem 0;
 	}
