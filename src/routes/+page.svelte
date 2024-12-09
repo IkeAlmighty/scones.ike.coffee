@@ -206,7 +206,11 @@
 	</div>
 	<div class="my-2 text-center">- written by Mud, a valued customer.</div>
 
-	<div id="social-media"><a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a></div>
+	<div id="social-media">
+		<a href="https://www.instagram.com/scones.ike.coffee/"><IGIcon /></a><a href="/communityboard"
+			>View Community Cork Board</a
+		>
+	</div>
 </div>
 
 <style>

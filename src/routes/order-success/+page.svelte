@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import BulletinBoard from '$lib/components/BulletinBoard.svelte';
 	import { generatePaymentLink, stringifyCart } from '$lib/utils';
-	import { onMount } from 'svelte';
 
 	let cart;
 
@@ -11,15 +10,6 @@
 			decodeURIComponent(new URLSearchParams(currentPage.url.search).get('cart') || '{}')
 		);
 	});
-
-	async function getImageSources() {
-		const listFilesResponse = await fetch('/api/bulletinboard/list-all');
-		const { files, downloadUrl } = await listFilesResponse.json();
-		console.log(files);
-		const imageSrcs = files.map((file) => `${downloadUrl}/file/scones-ike-coffee/${file.fileName}`);
-
-		return imageSrcs;
-	}
 </script>
 
 <h1>Thank You!!!!!</h1>
@@ -34,7 +24,7 @@
 
 <hr />
 
-<BulletinBoard {getImageSources} />
+<BulletinBoard />
 
 <style>
 	div {

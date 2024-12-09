@@ -1,6 +1,8 @@
 import { PRIVATE_BACKBLAZE_KEY } from '$env/static/private';
 import { PUBLIC_BACKBLAZE_ID } from '$env/static/public';
 import { json } from '@sveltejs/kit'
+import crypto from 'crypto';
+import fs from 'fs'
 
 async function auth_b2_json() {
     // first, authorize the backblaze requests:
@@ -21,4 +23,16 @@ async function auth_b2_json() {
     }
 }
 
-export { auth_b2_json }
+async function generateSHA1Hash(file) {
+
+    return new Promise((resolve, reject) => {
+        const hash = crypto.createHash('sha1');
+        const stream = new ReadableStream(file);
+
+        stream.on('data', (chunk) => hash.update(chunk));
+        stream.on('end', () => resolve(hash.digest('hex')));
+        stream.on('error', (err) => reject(err));
+    });
+}
+
+export { auth_b2_json, generateSHA1Hash }
