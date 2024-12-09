@@ -47,7 +47,7 @@
 			<span>
 				<button
 					class={`date-btn ${dateSelected ? (dateSelected.getTime() === day.date.getTime() ? 'selected-btn' : '') : ''}`}
-					disabled={day.date.getTime() < today.getTime() + 86400000}
+					disabled={day.date.getTime() < today.getTime() + 86400000 || day.date.getDay() === 3}
 					on:click={() => (dateSelected = day.date)}
 				>
 					{day.string}
