@@ -19,6 +19,14 @@ export const products = {
         suggestedPrice: 2.75,
         mutualAid: true,
     },
+    'choco-chip-cinnamon': {
+        name: 'Chocolate Chip Cinnamon Scone',
+        imageUrl: '/choco-chip-cinnamon.jpg',
+        amount: 0,
+        details: 'A chocolate chip cinnamon scone with cinnamon glaze on top.',
+        suggestedPrice: 2.75,
+        mutualAid: true
+    },
     'delivery-fee': {
         name: 'Delivery Fee',
         amount: 0,
