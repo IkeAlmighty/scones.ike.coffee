@@ -3,11 +3,11 @@
 // create a cart. the backend uses this structure unedited to determin 
 // cart total at checkout.
 export const products = {
-    'blueberry-nutmeg-clementine-scone': {
-        name: 'Blueberry Nutmeg with Clementine Glaze Scone',
-        imageUrl: '/blueberry-nutmeg-clementine.jpg',
+    'blueberry-scone': {
+        name: 'Blueberry Scone',
+        imageUrl: '/blueberry.jpg',
         amount: 0,
-        details: 'A blueberry scone with ground nutmeg and clementine glaze on top.',
+        details: 'A classic blueberry scone.',
         suggestedPrice: 2.75,
         mutualAid: true,
     },
@@ -23,7 +23,7 @@ export const products = {
         name: 'Chocolate Chip Cinnamon Scone',
         imageUrl: '/choco-chip-cinnamon.jpg',
         amount: 0,
-        details: 'A chocolate chip cinnamon scone with cinnamon glaze on top.',
+        details: 'A chocolate chip cinnamon scone with powdered sugar and cinnamon on top.',
         suggestedPrice: 2.75,
         mutualAid: true
     },
