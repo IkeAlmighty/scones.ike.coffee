@@ -11,14 +11,6 @@ export const products = {
         suggestedPrice: 2.75,
         mutualAid: true,
     },
-    'raspberry-white-chocolate-scone': {
-        name: 'Raspberry White Chocolate Scone',
-        imageUrl: '/raspberry-white-chocolate.jpg',
-        amount: 0,
-        details: 'Raspberry and white chocolate baked into a delicious scone.',
-        suggestedPrice: 2.75,
-        mutualAid: true,
-    },
     'earl-grey-scone': {
         name: 'Earl Grey Scone',
         imageUrl: '/earlgrey.jpg',
