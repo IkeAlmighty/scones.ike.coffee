@@ -3,12 +3,20 @@
 // create a cart. the backend uses this structure unedited to determin 
 // cart total at checkout.
 export const products = {
+    'cherry-choco-chip-scone': {
+        name: 'Cherry Chocolate Chip Scone',
+        imageUrl: '',
+        amount: 0,
+        details: 'A luscious cherry chocolate chip scone with vanilla icing.',
+        suggestedPrice: 3.5,
+        mutualAid: true
+    },
     'blueberry-scone': {
         name: 'Blueberry Scone',
         imageUrl: '/blueberry.jpg',
         amount: 0,
         details: 'A classic blueberry scone.',
-        suggestedPrice: 2.75,
+        suggestedPrice: 3.5,
         mutualAid: true,
     },
     'earl-grey-scone': {
@@ -16,16 +24,8 @@ export const products = {
         imageUrl: '/earlgrey.jpg',
         amount: 0,
         details: 'Earl Grey Tea from Anahata Herbals in Duluth, baked into delicious scones with an Earl Grey glaze on top.',
-        suggestedPrice: 2.75,
+        suggestedPrice: 3.5,
         mutualAid: true,
-    },
-    'choco-chip-cinnamon': {
-        name: 'Chocolate Chip Cinnamon Scone',
-        imageUrl: '/choco-chip-cinnamon.jpg',
-        amount: 0,
-        details: 'A chocolate chip cinnamon scone with powdered sugar and cinnamon on top.',
-        suggestedPrice: 2.75,
-        mutualAid: true
     },
     'delivery-fee': {
         name: 'Delivery Fee',
