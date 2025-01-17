@@ -1,5 +1,6 @@
 <script>
 	import { prettifyDate } from '$lib/utils';
+	import closedDates from '../closed-dates.js';
 
 	export let dateSelected;
 
@@ -27,6 +28,21 @@
 	function createDateFromOffset(date, offset) {
 		return new Date(new Date(date).setDate(date.getDate() + offset));
 	}
+
+	function dateIsValid(day) {
+		const isLessThanOneDay = day.date.getTime() < today.getTime() + 86400000;
+		const isWed = day.date.getDay() === 3;
+		let isClosed = false;
+		closedDates.forEach((dateString) => {
+			const [y, d, m] = dateString.split('-');
+			const closedDate = new Date(y, m - 1, d);
+			if (closedDate.getUTCDate() === day.date.getUTCDate()) {
+				isClosed = true;
+			}
+		});
+
+		return isLessThanOneDay || isWed || isClosed;
+	}
 </script>
 
 <div>Choose a date for pickup/delivery:</div>
@@ -47,7 +63,7 @@
 			<span>
 				<button
 					class={`date-btn ${dateSelected ? (dateSelected.getTime() === day.date.getTime() ? 'selected-btn' : '') : ''}`}
-					disabled={day.date.getTime() < today.getTime() + 86400000 || day.date.getDay() === 3}
+					disabled={dateIsValid(day)}
 					on:click={() => (dateSelected = day.date)}
 				>
 					{day.string}
