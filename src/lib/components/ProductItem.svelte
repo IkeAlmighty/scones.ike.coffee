@@ -8,7 +8,7 @@
 	export let details;
 	export let shorthandName = productName;
 
-	const batchCounts = [0, 3, 6, 12, 24];
+	const batchCounts = [0, 3, 6, 12, 18, 24];
 	let batchCountIndex = 0;
 
 	// Function to handle incrementing the amount
