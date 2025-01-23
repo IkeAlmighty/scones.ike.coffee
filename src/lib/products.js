@@ -5,9 +5,9 @@
 export const products = {
     'cherry-choco-chip-scone': {
         name: 'Cherry Chocolate Chip Scone',
-        imageUrl: '',
+        imageUrl: 'cherrychoco.jpg',
         amount: 0,
-        details: 'A luscious cherry chocolate chip scone with vanilla icing.',
+        details: 'A luscious cherry chocolate chip scone with a dusting of powdered sugar on top.',
         suggestedPrice: 3.25,
         mutualAid: true
     },
