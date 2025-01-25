@@ -8,7 +8,7 @@ export const products = {
         imageUrl: 'cherrychoco.jpg',
         amount: 0,
         details: 'A luscious cherry chocolate chip scone with a dusting of powdered sugar on top.',
-        suggestedPrice: 3.25,
+        suggestedPrice: 2.75,
         mutualAid: true
     },
     'blueberry-scone': {
@@ -16,7 +16,7 @@ export const products = {
         imageUrl: '/blueberry.jpg',
         amount: 0,
         details: 'A classic blueberry scone.',
-        suggestedPrice: 3.25,
+        suggestedPrice: 2.75,
         mutualAid: true,
     },
     'earl-grey-scone': {
@@ -24,7 +24,7 @@ export const products = {
         imageUrl: '/earlgrey.jpg',
         amount: 0,
         details: 'Earl Grey Tea from Anahata Herbals in Duluth, baked into delicious scones with an Earl Grey glaze on top.',
-        suggestedPrice: 3.25,
+        suggestedPrice: 2.75,
         mutualAid: true,
     },
     'delivery-fee': {
