@@ -3,23 +3,25 @@
 // create a cart. the backend uses this structure unedited to determin 
 // cart total at checkout.
 export const products = {
-    'choco-chip-blueberry-scone': {
-        name: 'Chocolate Chip Blueberry Scone',
+    'cherry-choco-chip-scone': {
+        name: 'Cherry Chocolate Chip Scone',
         singular: 'scone',
-        imageUrl: '/scone_16count.jpg',
+        imageUrl: '/cherrychoco.jpg',
         amount: 0,
-        details: 'Chocolate chips and blueberries baked into delicious scones.',
-        suggestedPrice: 2.75,
-        batchCounts: [0, 3, 6, 12, 24]
+        details: 'A luscious cherry chocolate chip scone with a dusting of powdered sugar on top.',
+        suggestedPrice: 3,
+        mutualAid: true,
+        batchCounts: [0, 6, 12, 18, 24]
     },
-    'blueberry-lemon-scone': {
-        name: 'Blueberry Lemon Scone',
+    'blueberry-scone': {
+        name: 'Blueberry Scone',
         singular: 'scone',
-        imageUrl: '/lemon-blueberry.jpg',
+        imageUrl: '/blueberry.jpg',
         amount: 0,
-        details: 'Lemon zest and blueberries baked into delicious scones.',
-        suggestedPrice: 2.75,
-        batchCounts: [0, 3, 6, 12, 24]
+        details: 'A classic blueberry scone.',
+        suggestedPrice: 3,
+        mutualAid: true,
+        batchCounts: [0, 6, 12, 18, 24]
     },
     'earl-grey-scone': {
         name: 'Earl Grey Scone',
@@ -27,8 +29,8 @@ export const products = {
         imageUrl: '/earlgrey.jpg',
         amount: 0,
         details: 'Earl Grey Tea from Anahata Herbals in Duluth, baked into delicious scones with an Earl Grey glaze on top.',
-        suggestedPrice: 2.75,
-        batchCounts: [0, 3, 6, 12, 24]
+        suggestedPrice: 3,
+        batchCounts: [0, 6, 12, 18, 24]
     },
     'wesley-andrews-coffee': {
         name: "Whole Bean Coffee by Wesley Andrews",
