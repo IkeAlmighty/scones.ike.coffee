@@ -74,11 +74,14 @@
 		<div class="product-item-container">
 			<ProductItem
 				productName={products[productKey].name}
-				shorthandName="scone"
+				shorthandName={products[productKey].singular}
 				imageUrl={products[productKey].imageUrl}
 				price={products[productKey].suggestedPrice}
 				details={products[productKey].details}
 				bind:amount={cart[productKey].amount}
+				additionalLink={products[productKey].additionalLink}
+				additionalLinkText={products[productKey].additionalLinkText}
+				batchCounts={products[productKey].batchCounts}
 			/>
 			<hr class="mt-2" />
 		</div>
