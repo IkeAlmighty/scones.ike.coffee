@@ -30,16 +30,15 @@ export const products = {
         suggestedPrice: 2.75,
         batchCounts: [0, 3, 6, 12, 24]
     },
-    'Mugs by piss.etc': {
-        name: 'Mug',
-        singular: 'mug',
-        imageUrl: '/okay.gif',
+    'wesley-andrews-coffee': {
+        name: "Whole Bean Coffee by Wesley Andrews",
+        singular: 'bag',
+        imageUrl: '/WA_ETH_KAYON.png',
         amount: 0,
-        details: 'A mug made by Will',
-        suggestedPrice: 35,
-        additionalLink: 'https://www.instagram.com/piss.etc',
-        additionalLinkText: 'Made by @piss.etc on Instagram',
-        batchCounts: [0, 1, 2, 3, 4]
+        details: 'Kayon Mountain Natural Ethiopian Coffee.',
+        suggestedPrice: 17.00,
+        mutualAid: false,
+        batchCounts: [0, 1]
     },
     'delivery-fee': {
         name: 'Delivery Fee',
