@@ -31,7 +31,7 @@
 
 	function dateIsValid(day) {
 		const isLessThanOneDay = day.date.getTime() < today.getTime() + 86400000;
-		const isWed = day.date.getDay() === 3;
+		// const isWed = day.date.getDay() === 3;
 		let isClosed = false;
 		closedDates.forEach((dateString) => {
 			const [y, d, m] = dateString.split('-');
@@ -41,7 +41,7 @@
 			}
 		});
 
-		return isLessThanOneDay || isWed || isClosed;
+		return isLessThanOneDay || isClosed;
 	}
 </script>
 
