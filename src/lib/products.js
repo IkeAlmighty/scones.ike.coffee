@@ -30,6 +30,7 @@ export const products = {
         amount: 0,
         details: 'Earl Grey Tea from Anahata Herbals in Duluth, baked into delicious scones with an Earl Grey glaze on top.',
         suggestedPrice: 3,
+        mutualAid: true,
         batchCounts: [0, 6, 12, 18, 24]
     },
     'wesley-andrews-coffee': {
