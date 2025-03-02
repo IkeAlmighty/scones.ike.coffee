@@ -2,14 +2,16 @@ import Stripe from 'stripe';
 import { json } from '@sveltejs/kit';
 import { PRIVATE_STRIPE_KEY } from '$env/static/private';
 import { validatePaymentAmount } from '$lib/utils';
+import { JWTService } from '$lib/server/jwtService';
 
 const stripe = new Stripe(PRIVATE_STRIPE_KEY);
 
-export const POST = async ({ request }) => {
+export const POST = async ({ request, locals }) => {
 	try {
-		// TODO: customerId should be read from an httpOnly cookie
-		// create when the user logs in.
-		const { address, cart, currency, amount, interval } = await request.json();
+
+		const user = JWTService.verifyToken(locals.user)
+		const { stripeCustomerId } = user;
+		const { name, address, cart, currency, amount, interval } = await request.json();
 
 		if (!validatePaymentAmount(cart, amount)) throw Error({ message: 'invalid payment amount.' });
 
@@ -19,12 +21,12 @@ export const POST = async ({ request }) => {
 			currency,
 			recurring: { interval },
 			product_data: {
-				name: 'Custom Subscription'
+				name: `Custom Subscription for ${name}`
 			}
 		});
 
 		// then, check to see if a customer exists under the email & phone:
-		const customer = await stripe.customers.retrieve(customerId);
+		const customer = await stripe.customers.retrieve(stripeCustomerId);
 
 		// if the customer does not exist then throw error
 		if (!customer) throw new Error('Customer does not exist.');

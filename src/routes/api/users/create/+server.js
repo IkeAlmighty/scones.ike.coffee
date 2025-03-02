@@ -7,25 +7,26 @@ import { JWTService } from '$lib/server/jwtService.js';
 const stripe = new Stripe(PRIVATE_STRIPE_KEY);
 
 export const POST = async ({ request, cookies }) => {
-	const { name, phone, address, password } = request.json();
+	const { name, phone, password, email } = request.json();
 
 	try {
 		// first, create the customer in stripe database
 		const customerStripe = await stripe.customers.create({
 			name,
 			phone,
-			address
 		});
 
 		// then, create the user in scones.ike.coffee database
-		const customer = { name, phone, address, stripeCustomerId: customerStripe.id };
+		const customer = { email, name, phone, password, stripeCustomerId: customerStripe.id };
 
 		const driver = await new MongoDriver();
 		await driver.connect();
-		await driver.createUser(customer);
+		const _id = await driver.createUser(customer);
+
+		delete customer.password; // remove the unhashed password from the user object that's being stored in a jwt in a cookie
 
 		// create a jwt for the user data
-		const token = JWTService.generateToken(customer);
+		const token = JWTService.generateToken({ ...customer, _id });
 
 		// then, set an httpOnly cookie containing the user data
 		cookies.set('auth_token', token, {
@@ -33,7 +34,7 @@ export const POST = async ({ request, cookies }) => {
 			secure: true,
 			sameSite: 'strict',
 			path: '/',
-			maxAge: 60 * 60 * 24 * 7 //7 days
+			maxAge: 60 * 60 * 24 * 7 // 7 days
 		});
 
 		return json({ message: 'Account Creation & Login Successful' });
