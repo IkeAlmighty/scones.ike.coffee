@@ -33,6 +33,10 @@
 
 	let payInPerson = false;
 
+	let isSubscription = false;
+
+	$: isSubscription && (payInPerson = false);
+
 	// update delivery fee if the delivery toggle is selected
 	$: delivering ? (cart['delivery-fee'].amount = 1) : (cart['delivery-fee'].amount = 0);
 
@@ -41,6 +45,7 @@
 		e.target.innerText = 'one moment...';
 		// send order to backend to be emailed to me:
 		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nPickup/Delivery Date: ${deliveryDate}\nPaid: ${payInPerson ? 'Paying in person.' : 'yes'}\n\nAddition Details:\n${additionalDetails}`;
+
 		const apiResponse = await fetch('/', {
 			method: 'POST',
 			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(cart)}` }),
@@ -52,6 +57,7 @@
 		} else {
 			console.log(await apiResponse.text());
 		}
+
 		e.target.disabled = false;
 	}
 </script>
@@ -88,6 +94,10 @@
 	{/each}
 
 	<div>
+		<div class="my-1">
+			<DateSelector bind:dateSelected={deliveryDate} bind:isSubscription />
+		</div>
+
 		<div>
 			<label>
 				<div>Delivery?</div>
@@ -119,10 +129,6 @@
 			>
 		</div>
 
-		<div class="my-1">
-			<DateSelector bind:dateSelected={deliveryDate} />
-		</div>
-
 		<div>
 			<div class="font-sm">Any special instructions? (optional)</div>
 			<textarea bind:value={additionalDetails} />
@@ -131,12 +137,14 @@
 
 	<h3>Order Summary</h3>
 
-	<div>
-		<label>
-			Paying in Person
-			<input type="checkbox" bind:checked={payInPerson} />
-		</label>
-	</div>
+	{#if !isSubscription}
+		<div>
+			<label>
+				Paying in Person
+				<input type="checkbox" bind:checked={payInPerson} />
+			</label>
+		</div>
+	{/if}
 
 	<div id={`payment-total-container-${device}`}>
 		<div>

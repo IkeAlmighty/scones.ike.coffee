@@ -3,6 +3,9 @@
 	import closedDates from '../closed-dates.js';
 
 	export let dateSelected;
+	export let isSubscription;
+
+	$: (isSubscription || !isSubscription) && (dateSelected = undefined);
 
 	let days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 	const today = new Date();
@@ -41,36 +44,77 @@
 			}
 		});
 
-		return isLessThanOneDay || isClosed;
+		return !isLessThanOneDay && !isClosed;
+	}
+
+	function getButtonSelectedClass(day) {
+		if (!dateSelected) return ''; // return no class
+
+		if (isSubscription && day.date.getDay() === dateSelected.getDay()) {
+			return 'selected-btn';
+		}
+
+		if (dateSelected.getTime() === day.date.getTime()) {
+			return 'selected-btn';
+		}
+	}
+
+	function selectDate(day) {
+		if (!dateIsValid(day) && isSubscription) {
+			dateSelected = createDateFromOffset(day.date, 7);
+			console.log(dateSelected);
+		} else {
+			dateSelected = day.date;
+		}
 	}
 </script>
 
-<div>Choose a date for pickup/delivery:</div>
-
 <div id="date-container">
-	<div>
-		<div>
-			week of {prettifyDate(weekOfDate)}
-
-			<button class="next-prev-btn" on:click={incrWeekOfDate}>next week</button>
-			{#if createDateFromOffset(weekOfDate, -1).getTime() > today.getTime()}
-				<button class="next-prev-btn" on:click={decrWeekOfDate}>prev week</button>
-			{/if}
-		</div>
+	<div class="my-1 font-lg text-center">
+		<button
+			class={`special-btn one-time-btn ${!isSubscription && 'selected-btn'}`}
+			on:click={() => (isSubscription = false)}
+		>
+			One Time Order
+		</button>
+		or
+		<button
+			class={`special-btn subscription-btn ${isSubscription && 'selected-btn animated'}`}
+			on:click={() => (isSubscription = true)}
+		>
+			Weekly Subscription
+		</button>
 	</div>
+	<div>
+		Choose a {#if isSubscription}(recuring)
+		{/if} day for pickup/delivery:
+	</div>
+	{#if !isSubscription}
+		<div>
+			<div>
+				week of {prettifyDate(weekOfDate)}
+				<button class="next-prev-btn" on:click={incrWeekOfDate}>next week</button>
+				{#if createDateFromOffset(weekOfDate, -1).getTime() > today.getTime()}
+					<button class="next-prev-btn" on:click={decrWeekOfDate}>prev week</button>
+				{/if}
+			</div>
+		</div>
+	{/if}
 	<div class="my-1">
 		{#each days.map( (string, index) => ({ string, index, date: createDateFromOffset(weekOfDate, index) }) ) as day}
 			<span>
 				<button
-					class={`date-btn ${dateSelected ? (dateSelected.getTime() === day.date.getTime() ? 'selected-btn' : '') : ''}`}
-					disabled={dateIsValid(day)}
-					on:click={() => (dateSelected = day.date)}
+					class={`date-btn ${dateSelected && getButtonSelectedClass(day)}`}
+					disabled={!isSubscription && !dateIsValid(day)}
+					on:click={() => selectDate(day)}
 				>
 					{day.string}
 				</button>
-				<div class="font-sm text-center">
-					{prettifyDate(day.date)}
-				</div>
+				{#if !isSubscription}
+					<div class="font-sm text-center">
+						{prettifyDate(day.date)}
+					</div>
+				{/if}
 			</span>
 		{/each}
 	</div>
@@ -100,7 +144,7 @@
 	}
 
 	.date-btn {
-		width: 4.5rem;
+		width: 4.3rem;
 		margin: 0 0;
 		margin-top: 0.75rem;
 	}
@@ -114,5 +158,42 @@
 		border: none;
 		text-decoration: underline;
 		float: right;
+	}
+
+	.special-btn {
+		border: none;
+		background-color: inherit;
+		padding: 1rem;
+		font-size: 0.9rem;
+		cursor: pointer;
+		border-radius: 1rem;
+		margin: 2px;
+	}
+
+	.one-time-btn {
+		background-color: aliceblue;
+	}
+
+	.subscription-btn {
+		background-color: aliceblue;
+	}
+
+	.animated {
+		animation: pulse 3s infinite ease-in-out;
+	}
+
+	.selected-btn {
+		border: 2px black solid;
+		margin: 0;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			background-color: antiquewhite;
+		}
+		50% {
+			background-color: rgb(255, 220, 137);
+		}
 	}
 </style>

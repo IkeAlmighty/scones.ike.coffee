@@ -7,6 +7,7 @@
 
 	export let cart;
 	export let sideEffect = () => console.log('running side effect for submit order'); // used for sending confirmation emails, etc on success.
+	export let isSubscription = false;
 
 	let stripe;
 	let elements;
@@ -30,32 +31,44 @@
 
 	async function handleSubmit(event) {
 		event.preventDefault();
-
 		try {
-			const res = await fetch('/api/create-payment-intent', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ cart, currency, amount: paymentTotalSelected * 100 })
-			});
+			if (isSubscription) {
+				const res = await fetch('/api/create-subscription-intent', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ cart, currency, amount: paymentTotalSelected * 100 })
+				});
 
-			const data = await res.json();
-			clientSecret = data.clientSecret;
+				const data = res.json();
+				//TODO: finish payment flow
+			} else {
+				const res = await fetch('/api/create-payment-intent', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ cart, currency, amount: paymentTotalSelected * 100 })
+				});
 
-			//confirm payment with card element and client secret:
+				const data = await res.json();
+				clientSecret = data.clientSecret;
 
-			const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
-				payment_method: {
-					card: cardElement
+				//confirm payment with card element and client secret:
+
+				const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+					payment_method: {
+						card: cardElement
+					}
+				});
+
+				if (error) {
+					console.log(error.message);
+				} else if (paymentIntent.status === 'succeeded') {
+					sideEffect(event);
+					console.log('payment succeeded');
 				}
-			});
-
-			if (error) {
-				console.log(error.message);
-			} else if (paymentIntent.status === 'succeeded') {
-				sideEffect(event);
-				console.log('payment succeeded');
 			}
 		} catch (err) {
 			console.error('payment failed'); //TODO: replace with user toast notification

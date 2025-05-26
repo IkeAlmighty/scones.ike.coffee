@@ -8,8 +8,12 @@ const stripe = new Stripe(PRIVATE_STRIPE_KEY);
 
 export const POST = async ({ request, locals }) => {
 	try {
+		// if there is no user logged in, then throw an error:
+		if (!locals.user) {
+			throw new Error('Subscription require user to be logged in.');
+		}
 
-		const user = JWTService.verifyToken(locals.user)
+		const user = JWTService.verifyToken(locals.user);
 		const { stripeCustomerId } = user;
 		const { name, address, cart, currency, amount, interval } = await request.json();
 
