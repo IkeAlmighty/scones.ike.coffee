@@ -1,57 +1,30 @@
 <script>
-	import { goto } from '$app/navigation';
-	import ProductItem from '$lib/components/ProductItem.svelte';
+	import Calendar from '$lib/components/Calendar.svelte';
 	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
-	import {
-		stringifyCart,
-		calcSuggestedPayment,
-		generatePaymentLink,
-		prettifyDate
-	} from '$lib/utils.js';
-	import StripePaymentElement from '$lib/components/StripePaymentElement.svelte';
 
-	// a copy of products is used as a cart object, before being compared at checkout
-	// on the backend to the prices listed in the structure:
-	import { products } from '$lib/products.js';
-	import DateSelector from '$lib/components/DateSelector.svelte';
+	import { products } from '$lib/pickupProducts.js';
 	import testimonials from '$lib/testimonials.js';
 
 	let cart = { ...products };
-	$: suggestedPayment = calcSuggestedPayment(cart);
 
 	let innerWidth = 0;
 	$: device = innerWidth < 697 ? 'mobile' : 'desktop';
 
-	let customerAddress;
-	let delivering = false;
-	let customerContact;
-	let customerName;
-	let deliveryDate;
+	let message;
 
-	let additionalDetails;
-
-	let payInPerson = false;
-
-	// update delivery fee if the delivery toggle is selected
-	$: delivering ? (cart['delivery-fee'].amount = 1) : (cart['delivery-fee'].amount = 0);
-
-	async function submitOrder(e) {
+	async function sendMessage(e) {
 		e.target.disabled = true;
-		e.target.innerText = 'one moment...';
-		// send order to backend to be emailed to me:
-		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nPickup/Delivery Date: ${deliveryDate}\nPaid: ${payInPerson ? 'Paying in person.' : 'yes'}\n\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(cart)}` }),
+			body: JSON.stringify({ message }),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
 		if (apiResponse.ok) {
-			goto(`/order-success?cart=${encodeURIComponent(JSON.stringify(cart))}`);
-		} else {
-			console.log(await apiResponse.text());
+			console.log('yay');
 		}
+
 		e.target.disabled = false;
 	}
 </script>
@@ -60,123 +33,41 @@
 
 <div id="page-container">
 	<div id="header">
-		<!-- <h1>scones.ike.coffee</h1> -->
 		<img
 			id="logo-img"
 			src="/sconelogo.jpg"
 			alt="logo depicting a bike with scones the front basket"
 		/>
-		<div>Baking & delivering scones to S. Minneapolis via bicycle.</div>
+		<div>Baking scones for S. Minneapolis.</div>
 	</div>
 	<hr />
 
-	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
-		<div class="product-item-container">
-			<ProductItem
-				productName={products[productKey].name}
-				shorthandName={products[productKey].singular}
-				imageUrl={products[productKey].imageUrl}
-				price={products[productKey].suggestedPrice}
-				details={products[productKey].details}
-				bind:amount={cart[productKey].amount}
-				additionalLink={products[productKey].additionalLink}
-				additionalLinkText={products[productKey].additionalLinkText}
-				batchCounts={products[productKey].batchCounts}
-			/>
-			<hr class="mt-2" />
-		</div>
-	{/each}
+	<div class="font-sm danger-italic text-center my-2">
+		Bike delivery has been paused indefinitely due to a lack of spoons.
+	</div>
 
 	<div>
 		<div>
-			<label>
-				<div>Delivery?</div>
-				<input type="checkbox" bind:checked={delivering} />
-			</label>
-			<div class="font-sm danger-italic">
-				Please note that I only deliver to Minneapolis, via bicycle. Sorry!
-			</div>
+			<div>Need to leave me a message?? Go for it:</div>
+			<div class="font-sm">( testimonials welcome )</div>
+			<textarea bind:value={message} />
+			<button on:click={sendMessage}>Send</button>
 		</div>
+	</div>
 
-		{#if delivering}
+	<div class="mt-1 text-center mb-2">
+		<h2>Scone Sale Schedule</h2>
+		<div class="font-sm italic mb-1">Click a day to add it to google calendar</div>
+		<Calendar />
+	</div>
+
+	<div id="product-container">
+		{#each Object.keys(products) as productKey}
 			<div>
-				<label
-					><div>Delivery Address:</div>
-					<input type="text" bind:value={customerAddress} /></label
-				>
+				<img src={products[productKey].imageUrl} alt={products[productKey].details} />
 			</div>
-		{/if}
-		<div>
-			<label
-				><div>Phone #:</div>
-				<input type="text" bind:value={customerContact} /></label
-			>
-		</div>
-		<div>
-			<label
-				><div>Your Name:</div>
-				<input type="text" bind:value={customerName} /></label
-			>
-		</div>
-
-		<div class="my-1">
-			<DateSelector bind:dateSelected={deliveryDate} />
-		</div>
-
-		<div>
-			<div class="font-sm">Any special instructions? (optional)</div>
-			<textarea bind:value={additionalDetails} />
-		</div>
+		{/each}
 	</div>
-
-	<h3>Order Summary</h3>
-
-	<div>
-		<label>
-			Paying in Person
-			<input type="checkbox" bind:checked={payInPerson} />
-		</label>
-	</div>
-
-	<div id={`payment-total-container-${device}`}>
-		<div>
-			<div class="inline-block">
-				{#each Object.keys(cart) as key}
-					{#if cart[key].amount > 0}
-						<div>{cart[key].name} x {cart[key].amount}</div>
-					{/if}
-				{/each}
-			</div>
-		</div>
-		<hr />
-		<div>Suggested Payment: ${suggestedPayment}</div>
-		<div class="text-sm italic">
-			To be {delivering ? 'delivered' : 'picked up'} on {prettifyDate(deliveryDate)}
-		</div>
-	</div>
-
-	{#if suggestedPayment === 0 || (delivering && suggestedPayment === products['delivery-fee'].suggestedPrice)}
-		<div class="font-sm danger-italic text-center my-2">
-			Uh oh!!! Your cart is empty. Don't you want scones?
-		</div>
-	{:else if delivering && !customerAddress}
-		<div class="font-sm danger-italic text-center my-2">Please fill out your delivery address.</div>
-	{:else if !customerContact || !customerName}
-		<div class="font-sm danger-italic text-center my-2">
-			Please fill out your contact information.
-		</div>
-	{:else if !deliveryDate}
-		<div class="font-sm danger-italic text-center my-2">
-			Please choose a day for pickup/delivery.
-		</div>
-	{:else if !payInPerson}
-		<div class="mt-2">Enter Payment Details:</div>
-		<StripePaymentElement {cart} sideEffect={submitOrder} />
-	{:else}
-		<div class="mt-2">
-			<button id="paymentButton" on:click={submitOrder}>Submit Scone Order</button>
-		</div>
-	{/if}
 
 	<div class="font-sm mt-2">These foods are homemade and not subject to state inspection.</div>
 
@@ -212,12 +103,8 @@
 </div>
 
 <style>
-	label div {
-		display: inline-block;
-		width: 10rem;
-	}
 	#page-container {
-		max-width: 600px;
+		max-width: calc(531px + 0.5rem);
 		margin: auto auto;
 	}
 
@@ -230,31 +117,32 @@
 		text-align: center;
 	}
 
-	#payment-total-container-desktop,
-	#payment-total-container-mobile {
-		font-size: 1rem;
-		position: sticky;
-		bottom: 0;
-		background-color: white;
-		border: solid 2px black;
-		padding: 1rem;
-		margin-top: 1rem;
-		border-radius: 5px;
+	#product-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		column-gap: 0.25rem;
 	}
 
-	.product-item-container {
-		margin: 2rem auto 4rem auto;
+	#product-container img {
+		width: 177px;
+		height: 177px;
+		object-fit: cover;
+		display: inline-block;
 	}
 
 	textarea {
 		width: calc(100% - 2rem);
 		padding: 1rem;
+		font-size: 1.25rem;
 	}
 
-	#paymentButton {
+	button {
 		padding: 0.5rem;
-		font-size: 1.5rem;
+		font-size: 1rem;
 		border-radius: 5px;
+		width: 100px;
+		margin: 1rem auto;
 	}
 
 	#social-media {
