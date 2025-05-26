@@ -1,5 +1,9 @@
 <script>
-	let openDates = getSaturdaysExcludingFirst();
+	let closedDates = [new Date(2025, 6, 19)];
+	let openDates = getSaturdaysExcludingFirst().filter((date) => {
+		const closedTimeStamps = closedDates.map((d) => d.getTime());
+		return !closedTimeStamps.includes(date.getTime());
+	});
 
 	function getSaturdaysExcludingFirst(start = new Date()) {
 		const end = new Date(start.getFullYear(), 9, 1); // Dec 1 = start of winter
