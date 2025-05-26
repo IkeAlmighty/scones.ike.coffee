@@ -4,7 +4,7 @@
 
 	export let dateSelected;
 
-	let days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+	let days = ['Sat'];
 	const today = new Date();
 	let weekOfDate = new Date(new Date().setDate(today.getDate() - today.getDay()));
 	if (today.getDay() == 6) incrWeekOfDate();
