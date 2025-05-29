@@ -44,7 +44,7 @@
 	<hr />
 
 	<div class="font-sm danger-italic text-center my-2">
-		Bike delivery has been paused indefinitely due to a lack of spoons.
+		Bike delivery has been paused due to a lack of spoons.
 	</div>
 
 	<div>
