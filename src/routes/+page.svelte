@@ -55,10 +55,8 @@
 		</div>
 	</div>
 
-	<div class="mt-1 text-center mb-2">
-		<h2>Scone Sale Schedule</h2>
-		<div class="font-sm italic mb-1">Click a day to add it to google calendar</div>
-		<Calendar />
+	<div class="text-center">
+		<h2>Next Scone Sale:<br />May 31st, 9am - Noon</h2>
 	</div>
 
 	<div id="product-container">
