@@ -1,70 +1,74 @@
 @font-face {
-    font-family: 'OldNewspaperTypes';
-    src: url('/OldNewspaperTypes.ttf');
+	font-family: 'OldNewspaperTypes';
+	src: url('/OldNewspaperTypes.ttf');
 }
 
 body {
-    font-family: 'OldNewspaperTypes';
+	font-family: 'OldNewspaperTypes';
 }
 
 .my-2 {
-    margin: 2rem auto;
+	margin: 2rem auto;
 }
 
 .mt-2 {
-    margin-top: 2rem;
+	margin-top: 2rem;
 }
 
 .my-1 {
-    margin-top: 1rem;
+	margin-top: 1rem;
 }
 
 .mb-2 {
-    margin-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 
 .mx-1 {
-    margin: 0 1rem;
+	margin: 0 1rem;
 }
 
 .mx-auto {
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .mt-10 {
-    margin-top: 10rem;
+	margin-top: 10rem;
+}
+
+.mt-5 {
+	margin-top: 5rem;
 }
 
 .font-sm {
-    font-size: small;
+	font-size: small;
 }
 
 .danger-italic {
-    color: red;
-    font-style: italic;
+	color: red;
+	font-style: italic;
 }
 
 .italic {
-    font-style: italic;
+	font-style: italic;
 }
 
 .inline-block {
-    display: inline-block;
+	display: inline-block;
 }
 
 button:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .text-right {
-    float: right;
+	float: right;
 }
 
 .text-center {
-    text-align: center;
+	text-align: center;
 }
 
 .mb-1 {
-    margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }

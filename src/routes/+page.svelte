@@ -1,5 +1,6 @@
 <script>
 	import Calendar from '$lib/components/Calendar.svelte';
+	import IgIcon from '$lib/components/IGIcon.svelte';
 	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
 
@@ -57,7 +58,16 @@
 
 	<div class="text-center">
 		<h2>Next Scone Sale:<br />May 31st, 9am - Noon</h2>
+		<div>
+			Message on <a
+				id="ig-embedded-link"
+				href="https://www.instagram.com/scones.ike.coffee/"
+				target="_blank"><IgIcon /></a
+			> for address
+		</div>
 	</div>
+
+	<div class="mt-5"></div>
 
 	<div id="product-container">
 		{#each Object.keys(products) as productKey}
@@ -150,5 +160,11 @@
 
 	#testimonial-container {
 		margin: 5rem 0;
+	}
+
+	#ig-embedded-link {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0 0.5rem;
 	}
 </style>
