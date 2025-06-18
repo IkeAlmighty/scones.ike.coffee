@@ -57,7 +57,7 @@
 	</div>
 
 	<div class="text-center">
-		<h2>Next Scone Sale:<br />TBD</h2>
+		<h2>Next Scone Sale:<br />June 21, 9am - Noon</h2>
 		<div>
 			Message on <a
 				id="ig-embedded-link"
