@@ -3,6 +3,7 @@
 	import IgIcon from '$lib/components/IGIcon.svelte';
 	import IGIcon from '$lib/components/IGIcon.svelte';
 	import TestimonialCarousel from '$lib/components/TestimonialCarousel.svelte';
+	import UserNavBar from '$lib/components/UserNavBar.svelte';
 
 	import { products } from '$lib/pickupProducts.js';
 	import testimonials from '$lib/testimonials.js';
@@ -31,6 +32,8 @@
 </script>
 
 <svelte:window bind:innerWidth />
+
+<UserNavBar />
 
 <div id="page-container">
 	<div id="header">
