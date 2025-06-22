@@ -1,15 +1,19 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { ADMIN_NUMBER } from '$env/static/private';
 
-const userSchema = new mongoose.Schema({
-	phone: { type: mongoose.Schema.Types.Number, required: true, unique: true },
-	password: { type: String, required: true },
-	username: { type: String, required: true }
-});
+const userSchema = new mongoose.Schema(
+	{
+		phone: { type: mongoose.Schema.Types.Number, required: true, unique: true },
+		password: { type: String, required: true },
+		username: { type: String, required: true }
+	},
+	{ toJSON: { virtuals: true } }
+);
 
 // hash password as it is placed in database:
 userSchema.pre('save', async function (next) {
-	if (!this.isModified('password')) {
+	if (this.isModified('password')) {
 		return next();
 	}
 
@@ -21,6 +25,10 @@ userSchema.pre('save', async function (next) {
 	} catch (error) {
 		return next(error);
 	}
+});
+
+userSchema.virtual('isAdmin').get(function () {
+	return this.phone === parseInt(ADMIN_NUMBER);
 });
 
 // create instance method for validating password:
