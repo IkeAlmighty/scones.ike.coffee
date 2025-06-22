@@ -12,7 +12,6 @@
 				user = await res.json();
 			} else {
 				user = null;
-				const data = await res.json();
 			}
 
 			loading = false;
