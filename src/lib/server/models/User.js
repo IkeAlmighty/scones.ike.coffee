@@ -6,14 +6,15 @@ const userSchema = new mongoose.Schema(
 	{
 		phone: { type: mongoose.Schema.Types.Number, required: true, unique: true },
 		password: { type: String, required: true },
-		username: { type: String, required: true }
+		username: { type: String, required: true },
+		notificationConsent: { type: Boolean, required: true }
 	},
 	{ toJSON: { virtuals: true } }
 );
 
 // hash password as it is placed in database:
 userSchema.pre('save', async function (next) {
-	if (this.isModified('password')) {
+	if (!this.isModified('password')) {
 		return next();
 	}
 
