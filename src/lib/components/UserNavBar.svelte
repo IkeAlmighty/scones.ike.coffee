@@ -39,7 +39,7 @@
 		<a href="/account">Account</a>
 		<button on:click={handleLogout}> Logout </button>
 	{:else}
-		<a href="/login">Login</a>
+		<a href="/login">Login/Sign Up</a>
 	{/if}
 </div>
 
