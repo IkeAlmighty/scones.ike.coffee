@@ -1,8 +1,6 @@
 import { json } from '@sveltejs/kit';
-import jwt from 'jsonwebtoken';
 import { connectToDatabase } from '$lib/server/utils/mongoose';
 import { User } from '$lib/server/models/User';
-import { JWT_SECRET } from '$env/static/private';
 import { getUserFromSession } from '$lib/server/utils/auth.js';
 
 export async function GET({ cookies }) {
