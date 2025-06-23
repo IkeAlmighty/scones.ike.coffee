@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { ADMIN_NUMBER } from '$env/static/private';
 
 const userSchema = new mongoose.Schema(
