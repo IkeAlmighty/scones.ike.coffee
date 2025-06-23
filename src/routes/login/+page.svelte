@@ -27,32 +27,42 @@
 	}
 </script>
 
-<form on:submit|preventDefault={handleLogin}>
-	<div>
-		<label>
-			<div>Phone:</div>
-			<input type="tel" bind:value={phone} required />
-		</label>
-	</div>
+<div id="container">
+	<h1>Sign In</h1>
+	<form on:submit|preventDefault={handleLogin}>
+		<div>
+			<label>
+				<div>Phone:</div>
+				<input type="tel" bind:value={phone} required />
+			</label>
+		</div>
 
-	<div>
-		<label>
-			<div>Password:</div>
-			<input type="password" bind:value={password} required />
-		</label>
-	</div>
+		<div>
+			<label>
+				<div>Password:</div>
+				<input type="password" bind:value={password} required />
+			</label>
+		</div>
 
-	<button type="submit"> Log In </button>
+		<button type="submit"> Log In </button>
 
-	{#if error}
-		<p>{error}</p>
-	{/if}
-</form>
+		{#if error}
+			<p>{error}</p>
+		{/if}
+	</form>
+
+	<div id="no-account">No account? <a href="signup">sign up</a></div>
+	<div>I'll send you scone pics if you do 😄😄.</div>
+</div>
 
 <style>
-	form {
+	#container {
 		max-width: 400px;
 		margin: 100px auto;
+	}
+
+	#no-account {
+		font-size: 1.5rem;
 	}
 
 	label div {
