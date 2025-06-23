@@ -50,11 +50,15 @@
 
 	button,
 	a {
+		color: black;
 		border: none;
 		background-color: none;
 		border-radius: 2px;
 		padding: 5px 10px;
-		text-decoration: none;
 		cursor: pointer;
+	}
+
+	a:visited {
+		color: black;
 	}
 </style>
