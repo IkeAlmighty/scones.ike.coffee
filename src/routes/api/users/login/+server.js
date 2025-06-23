@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { User } from '$lib/server/models/User.js';
-import { connectToDatabase } from '$lib/server/mongoose.js';
+import { connectToDatabase } from '$lib/server/utils/mongoose.js';
 import { JWT_SECRET } from '$env/static/private';
 import jwt from 'jsonwebtoken';
 

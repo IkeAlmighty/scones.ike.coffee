@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit';
 import jwt from 'jsonwebtoken';
-import { connectToDatabase } from '$lib/server/mongoose';
+import { connectToDatabase } from '$lib/server/utils/mongoose';
 import { User } from '$lib/server/models/User';
 import { JWT_SECRET } from '$env/static/private';
-import { getUserFromSession } from '$lib/server/auth.js';
+import { getUserFromSession } from '$lib/server/utils/auth.js';
 
 export async function GET({ cookies }) {
 	const token = cookies.get('authToken');

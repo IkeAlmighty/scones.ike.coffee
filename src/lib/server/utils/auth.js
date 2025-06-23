@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { connectToDatabase } from '$lib/server/mongoose';
+import { connectToDatabase } from '$lib/server/utils/mongoose';
 import { User } from '$lib/server/models/User';
 import { JWT_SECRET } from '$env/static/private';
 
@@ -8,7 +8,7 @@ export async function getUserFromSession(token) {
 		const payload = jwt.verify(token, JWT_SECRET);
 
 		await connectToDatabase();
-		const user = await User.findById(payload.id).lean();
+		const user = await User.findById(payload.id);
 
 		if (!user) {
 			return null;
@@ -17,7 +17,8 @@ export async function getUserFromSession(token) {
 		return {
 			id: user.id,
 			phone: user.phone,
-			username: user.username
+			username: user.username,
+			isAdmin: user.isAdmin
 		};
 	} catch (err) {
 		console.log(err);
