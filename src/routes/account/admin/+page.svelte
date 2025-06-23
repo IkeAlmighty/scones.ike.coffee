@@ -1,6 +1,6 @@
 <script>
 	let to = '';
-	let body = 'this is a test';
+	let body = '';
 	let statusMessage = '';
 
 	let sendToAll = true;

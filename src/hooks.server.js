@@ -3,10 +3,12 @@ import { getUserFromSession } from '$lib/server/utils/auth'; // Your own functio
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
-	// Example: grab session token from cookie
+	console.log('Request to:', event.url.pathname);
+
+	// grab session token from cookie
 	const token = event.cookies.get('authToken');
 
-	// You'd implement this function to verify token and get user data
+	// if the token exists, get the user, otherwise set user to null
 	const user = token ? await getUserFromSession(token) : null;
 
 	event.locals.user = user; // Attach to locals
