@@ -3,8 +3,6 @@ import { getUserFromSession } from '$lib/server/utils/auth'; // Your own functio
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
-	console.log('Request to:', event.url.pathname);
-
 	// grab session token from cookie
 	const token = event.cookies.get('authToken');
 
