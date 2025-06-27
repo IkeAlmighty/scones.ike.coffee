@@ -8,4 +8,25 @@ const messageSchema = new mongoose.Schema({
 	timestamp: { type: Date, default: Date.now }
 });
 
+function formatPhoneNumber(number) {
+	console.log(number);
+	let formatted = number.replace(/[^0-9+]/g, '');
+
+	if (formatted.length === 10) return `+1${formatted}`
+	if (formatted.length === 11) return `+${formatted}`
+
+	return formatted;
+}
+
+messageSchema.pre('save', function (next) {
+	console.log('running presave')
+	if (this.from) {
+		this.from = formatPhoneNumber(this.from);
+	}
+	if (this.to) {
+		this.to = formatPhoneNumber(this.to);
+	}
+	next();
+});
+
 export default mongoose.models.Message || mongoose.model('Message', messageSchema);
