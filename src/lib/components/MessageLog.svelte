@@ -1,23 +1,62 @@
 <script>
 	import { onMount } from 'svelte';
+	import RefreshIcon from './RefreshIcon.svelte';
 
 	let messages = [];
-	export let phoneNumber;
+	let messagePolling = false;
+	let consentingUsers = [];
+	let selectedPhoneNumber;
+
+	async function updateMessages() {
+		const response = await fetch(
+			`/api/twilio/read-sms?phoneNumber=${encodeURIComponent(selectedPhoneNumber)}`
+		);
+		const data = await response.json();
+		messages = data.messages;
+	}
+
+	async function updatePhoneNumbers() {
+		const response = await fetch(`/api/users/phone-numbers`);
+		const data = await response.json();
+		consentingUsers = data.users;
+	}
+
+	function setSelectedPhoneNumber(e) {
+		selectedPhoneNumber = e.target.value.split('|')[1].trim();
+		updateMessages();
+	}
 
 	onMount(() => {
-		// setInterval(updateMessages, 1000);
-		async function updateMessages() {
-			console.log(phoneNumber);
-			const response = await fetch(`/api/twilio?phoneNumber=${encodeURIComponent(phoneNumber)}`);
-			const data = await response.json();
-			messages = data.messages;
-		}
+		setInterval(() => {
+			if (messagePolling) updateMessages();
+		}, 1000);
 
-		updateMessages();
+		updatePhoneNumbers();
 	});
 </script>
 
-{phoneNumber}
+{#if !messagePolling}
+	<button id="refresh-btn" on:click={updateMessages}><RefreshIcon /></button>
+{/if}
+
+<input
+	type="checkbox"
+	checked={messagePolling}
+	value={messagePolling}
+	on:change={() => (messagePolling = !messagePolling)}
+/>
+auto refresh messages
+
+<div>
+	<select on:change={setSelectedPhoneNumber}>
+		<option>Select a User</option>
+		{#each consentingUsers as user}
+			<option>{user.username} | {user.phone}</option>
+		{/each}
+	</select>
+</div>
+
+<hr />
 {#each messages as message}
 	<div class={`${message.direction === 'inbound' ? 'their-messages' : 'my-messages'}`}>
 		{message.body}
@@ -25,11 +64,26 @@
 {/each}
 
 <style>
+	#refresh-btn {
+		width: 1.2rem;
+		background-color: inherit;
+
+		border: solid black 1px;
+	}
 	.my-messages {
-		text-align: right;
+		padding-left: 30%;
+		margin: 2rem 0;
 	}
 
 	.their-messages {
-		text-align: left;
+		padding-right: 30%;
+		margin: 2rem 0;
+	}
+
+	button {
+		border: none;
+		background-color: none;
+		cursor: pointer;
+		display: block;
 	}
 </style>
