@@ -5,8 +5,10 @@
 
 	let sendToAll = true;
 
-	async function sendSMS() {
+	async function sendSMS(e) {
 		statusMessage = '';
+		e.target.value = 'Sending...';
+		e.target.disabled = true;
 
 		// parse phone numbers into list:
 		const numbers = to.split(',').map((n) => n.trim());
@@ -30,10 +32,13 @@
 		} catch (err) {
 			statusMessage = `❌ Failed to send: ${err.message}`;
 		}
+
+		e.target.value = 'Send SMS';
+		e.target.disabled = false;
 	}
 </script>
 
-<div id="container">
+<div>
 	<h1>Send SMS via Twilio</h1>
 
 	<div>
@@ -42,7 +47,7 @@
 			<input type="checkbox" checked={sendToAll} on:change={() => (sendToAll = !sendToAll)} />
 		</label>
 	</div>
-	<form on:submit|preventDefault={sendSMS}>
+	<form on:submit={(e) => e.preventDefault()}>
 		{#if !sendToAll}
 			<label>
 				<div>Phone Number(s):</div>
@@ -55,18 +60,13 @@
 			<textarea bind:value={body} required></textarea>
 		</label>
 
-		<button type="submit">Send SMS</button>
+		<input type="submit" on:click={sendSMS} value="Send SMS" />
 	</form>
 
 	<p>{statusMessage}</p>
 </div>
 
 <style>
-	#container {
-		max-width: 600px;
-		margin: auto auto;
-	}
-
 	#message {
 		display: block;
 	}
@@ -87,7 +87,7 @@
 		min-height: 1rem;
 	}
 
-	button {
+	input[type='submit'] {
 		margin: 3rem 0;
 		background: linear-gradient(135deg, #7f5af0, #2cb67d);
 		color: white;
@@ -106,7 +106,7 @@
 		overflow: hidden;
 	}
 
-	button::before {
+	input[type='submit']::before {
 		content: '';
 		position: absolute;
 		top: -50%;
@@ -118,14 +118,14 @@
 		pointer-events: none;
 	}
 
-	button:hover {
+	input[type='submit']:hover {
 		transform: scale(1.05);
 		box-shadow:
 			0 0 20px #7f5af0,
 			0 0 40px #2cb67d;
 	}
 
-	button:active {
+	input[type='submit']:active {
 		transform: scale(0.98);
 		box-shadow:
 			0 0 5px #7f5af0,
