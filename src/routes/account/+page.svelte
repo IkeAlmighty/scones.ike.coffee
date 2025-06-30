@@ -34,6 +34,12 @@
 	<button on:click={toggleNotificationConsent}>
 		{notificationConsent ? 'Stop' : 'Start'} Text Notifications
 	</button>
+
+	{#if data.user.isAdmin}
+		<div>
+			<a href="/account/admin">go to message center</a>
+		</div>
+	{/if}
 </div>
 
 <style>

@@ -72,3 +72,8 @@ button:hover {
 .mb-1 {
 	margin-bottom: 1rem;
 }
+
+.page-container {
+	margin: auto auto;
+	max-width: 550px;
+}
