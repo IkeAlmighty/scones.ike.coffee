@@ -25,7 +25,7 @@ export async function POST({ request }) {
 		console.log(`✅ Stored inbound SMS from ${from}`);
 
 		// notify me:
-		const user = await User.find({ phone: from });
+		const user = await User.findOne({ phone: from });
 		const message = await client.messages.create({
 			body: `${user ? user.username : from} sent a message. https://scones.ike.coffee/account/admin`,
 			from: TWILIO_NUMBER,
