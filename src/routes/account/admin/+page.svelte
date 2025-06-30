@@ -1,7 +1,9 @@
 <script>
 	import MessageComposer from '$lib/components/MessageComposer.svelte';
 	import MessageLog from '$lib/components/MessageLog.svelte';
+	import MessagingComponent from '$lib/components/MessagingComponent.svelte';
 </script>
 
-<MessageLog phoneNumber={'+14052024472'} />
-<MessageComposer />
+<div class="page-container">
+	<MessagingComponent />
+</div>
