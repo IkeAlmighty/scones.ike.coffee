@@ -5,9 +5,10 @@ import { ADMIN_NUMBER } from '$env/static/private';
 const userSchema = new mongoose.Schema(
 	{
 		phone: { type: mongoose.Schema.Types.Number, required: true, unique: true },
-		password: { type: String, required: true },
-		username: { type: String, required: true },
-		notificationConsent: { type: Boolean, required: true }
+		password: { type: String },
+		username: { type: String },
+		notificationConsent: { type: Boolean, required: true },
+		referral: { type: mongoose.Schema.Types.ObjectId }
 	},
 	{ toJSON: { virtuals: true } }
 );
@@ -34,7 +35,8 @@ userSchema.virtual('isAdmin').get(function () {
 
 // create instance method for validating password:
 userSchema.methods.isValidPassword = async function (password) {
-	return bcrypt.compare(password, this.password);
+	if (!this.password) return false; // if the user hasn't set up a password, then don't try comparing as it will crash the server
+	return await bcrypt.compare(password, this.password);
 };
 
 export const User = mongoose.models.User || mongoose.model('User', userSchema);
