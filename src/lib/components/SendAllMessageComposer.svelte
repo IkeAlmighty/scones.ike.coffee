@@ -1,6 +1,7 @@
 <script>
+	import { formatPhoneNumber } from '$lib/utils.js';
+
 	let to = '';
-	let body = '';
 	let statusMessage = '';
 
 	let sendToAll = true;
@@ -11,15 +12,15 @@
 		e.target.disabled = true;
 
 		// parse phone numbers into list:
-		const numbers = to.split(',').map((n) => n.trim());
-
+		const numbers = to.split(',').map((n) => formatPhoneNumber(n).trim());
+		console.log(numbers);
 		try {
-			const res = await fetch('/api/twilio/send-sms', {
+			const res = await fetch('/api/twilio/send-referral-link', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ numbers, body, sendToAll })
+				body: JSON.stringify({ numbers, sendToAll })
 			});
 
 			const data = await res.json();
@@ -39,7 +40,7 @@
 </script>
 
 <div>
-	<h1>Send SMS via Twilio</h1>
+	<h1>Custom Message Sender</h1>
 
 	<div>
 		<label>
@@ -47,6 +48,7 @@
 			<input type="checkbox" checked={sendToAll} on:change={() => (sendToAll = !sendToAll)} />
 		</label>
 	</div>
+
 	<form on:submit={(e) => e.preventDefault()}>
 		{#if !sendToAll}
 			<label>
@@ -55,10 +57,8 @@
 			</label>
 		{/if}
 
-		<label>
-			<div id="message">Message:</div>
-			<textarea bind:value={body} required></textarea>
-		</label>
+		<br />
+		<div>The message sent by custom message sender is hardcoded into the backend.</div>
 
 		<input type="submit" on:click={sendSMS} value="Send SMS" />
 	</form>
@@ -67,10 +67,6 @@
 </div>
 
 <style>
-	#message {
-		display: block;
-	}
-
 	form label {
 		display: block;
 		margin: 1rem 0;
@@ -81,10 +77,6 @@
 		padding: 0.5rem;
 		margin: 1rem 0;
 		font-size: 1rem;
-	}
-
-	textarea {
-		min-height: 1rem;
 	}
 
 	input[type='submit'] {
