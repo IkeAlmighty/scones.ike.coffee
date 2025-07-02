@@ -29,8 +29,20 @@ export async function POST({ request }) {
 
 		// notify me:
 		const user = await User.findOne({ phone: from });
+		const isStopRequest = body === 'STOP';
+		let adminMessage = `${user ? user.username : from} sent a message. https://scones.ike.coffee/account/admin?user=${user.id}`;
+
+		// disable textConsent if message contains stop
+		if (isStopRequest && user) {
+			// reset admin message:
+			adminMessage = `${user.username} has stopped notifications. May they have peace and quiet :)`;
+
+			user.textConsent = false;
+			await user.save();
+		}
+
 		const message = await client.messages.create({
-			body: `${user ? user.username : from} sent a message. https://scones.ike.coffee/account/admin`,
+			body: adminMessage,
 			from: TWILIO_NUMBER,
 			to: ADMIN_NUMBER
 		});
