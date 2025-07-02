@@ -31,7 +31,9 @@ export async function POST({ request }) {
 		let user = await User.findOne({ phone: from });
 
 		// if the user does not exist, create it with just the phone number field:
-		user = await User.create({ phone: from, notificationConsent: false });
+		if (!user) {
+			user = await User.create({ phone: from, notificationConsent: false });
+		}
 
 		const isStopRequest = body === 'STOP';
 		const isStartRequest = body === 'START';
