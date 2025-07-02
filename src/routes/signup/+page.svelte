@@ -42,7 +42,13 @@
 		loading = false;
 
 		if (res.ok) {
-			goto('/');
+			if (referral?.id === '6865ad5068c92cc9acd8a664') {
+				// to make it easier for me to enter numbers in
+				phone = '';
+				username = '';
+			} else {
+				goto('/');
+			}
 		} else {
 			const data = await res.json();
 			error = data.error || 'Signup failed';
