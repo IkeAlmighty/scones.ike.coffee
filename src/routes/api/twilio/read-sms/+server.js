@@ -2,7 +2,7 @@ import { ADMIN_NUMBER } from '$env/static/private';
 import Message from '$lib/server/models/Message';
 import { connectToDatabase } from '$lib/server/utils/mongoose';
 import { json } from '@sveltejs/kit';
-import { formatPhoneNumber } from '$lib/server/utils/formatting.js';
+import { formatPhoneNumber } from '$lib/utils.js';
 
 export const GET = async ({ url }) => {
 	await connectToDatabase();

@@ -1,7 +1,7 @@
 import { TWILIO_NUMBER } from '$env/static/private';
-import Message from '../models/Message';
-import { formatPhoneNumber } from '../utils/formatting';
-import { connectToDatabase } from '../utils/mongoose';
+import Message from '$lib/server/models/Message.js';
+import { formatPhoneNumber } from '$lib/utils.js';
+import { connectToDatabase } from '$lib/server/utils/mongoose.js';
 
 /**
  *
