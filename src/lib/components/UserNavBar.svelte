@@ -24,8 +24,8 @@
 	async function handleLogout() {
 		const res = await fetch('/api/users/logout', { method: 'POST' });
 		if (res.ok) {
-			goto('/');
 			user = null;
+			goto('/');
 		} else {
 			console.error('Logout failed');
 		}
