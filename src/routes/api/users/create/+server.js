@@ -17,7 +17,7 @@ export const POST = async ({ request, cookies }) => {
 
 		// if the phone doesn't include the country number, then just add united states code (my customers are in MN)
 		let phoneWithCountryCode = phone;
-		if (phone.length === 10) phoneWithCountryCode = parseInt(`+1${phone}`);
+		if (phone.length === 10) phoneWithCountryCode = parseInt(`1${phone}`);
 
 		// check to see if user exists already, if so then abort and send an error message:
 		const exists = await User.findOne({ phone: parseInt(phoneWithCountryCode) });
@@ -63,6 +63,6 @@ You can stop recieving sconifications at any time by texting STOP.`;
 		return json({ message: 'user created.' });
 	} catch (error) {
 		console.log(error.message);
-		return json({ error: error.message }, { status: 400 });
+		return json({ error: 'Server side error' }, { status: 500 });
 	}
 };
