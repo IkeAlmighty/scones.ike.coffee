@@ -10,6 +10,10 @@ export const POST = async ({ request, cookies }) => {
 
 		const { phone, password } = await request.json();
 
+		if (!phone || !password) {
+			return json({ error: 'missing either phone or password' }, { status: 400 });
+		}
+
 		let phoneWithCountryCode = phone;
 
 		// if the phone doesn't include the country number, then just add united states code (my customers are in MN)
@@ -17,7 +21,7 @@ export const POST = async ({ request, cookies }) => {
 
 		const user = await User.findOne({ phone: phoneWithCountryCode });
 
-		if (user && user.isValidPassword(password)) {
+		if (user && (await user.isValidPassword(password))) {
 			// create jwt and store in httpOnly cookie:
 			const token = jwt.sign(
 				{ id: user.id },
