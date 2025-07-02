@@ -1,11 +1,12 @@
 <script>
 	import UserNavBar from '$lib/components/UserNavBar.svelte';
+	import { getReferralLinkFromId } from '$lib/utils.js';
 
 	export let data;
 
 	let notificationConsent = data.notificationConsent;
 
-	let referralLink = `https://scones.ike.coffee/signup?referral=${data.user.id}`;
+	let referralLink = getReferralLinkFromId(data.user.id);
 
 	async function toggleNotificationConsent(e) {
 		let prevState = e.target.innerHTML;
