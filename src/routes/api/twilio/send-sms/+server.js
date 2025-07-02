@@ -2,7 +2,7 @@ import twilio from 'twilio';
 import { json } from '@sveltejs/kit';
 import { TWILIO_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } from '$env/static/private';
 import { User } from '$lib/server/models/User.js';
-import Message from '$lib/server/models/Message.js'
+import Message from '$lib/server/models/Message.js';
 
 const client = twilio(TWILIO_SID, TWILIO_AUTH_TOKEN);
 
@@ -36,7 +36,7 @@ export async function POST({ request, locals }) {
 			sidList.push(message.sid);
 
 			// update database as well:
-			await Message.create({ from: TWILIO_NUMBER, to: recipient, body, direction: 'outbound' })
+			await Message.create({ from: TWILIO_NUMBER, to: recipient, body });
 		}
 
 		return json({ sidList });
