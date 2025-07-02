@@ -5,6 +5,8 @@
 
 	let notificationConsent = data.notificationConsent;
 
+	let referralLink = `https://scones.ike.coffee/signup?referral=${data.user.id}`;
+
 	async function toggleNotificationConsent(e) {
 		let prevState = e.target.innerHTML;
 		e.target.innerHTML = 'Toggling...';
@@ -35,6 +37,10 @@
 		{notificationConsent ? 'Stop' : 'Start'} Text Notifications
 	</button>
 
+	<div>
+		Your referral link for free scones: <a href={referralLink}>{referralLink}</a>
+	</div>
+
 	{#if data.user.isAdmin}
 		<div>
 			<a href="/account/admin">go to message center</a>
@@ -43,6 +49,10 @@
 </div>
 
 <style>
+	div {
+		margin: 2rem 0;
+	}
+
 	#container {
 		max-width: 500px;
 		margin: auto auto;
