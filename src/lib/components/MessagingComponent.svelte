@@ -1,6 +1,7 @@
 <script>
 	import { onMount, tick } from 'svelte';
 	import RefreshIcon from './RefreshIcon.svelte';
+	import { formatPhoneNumber } from '$lib/utils.js';
 
 	let body = '';
 	let statusMessage = '';
@@ -105,9 +106,11 @@
 		<!-- Scrollable message log -->
 		<div class="message-log" bind:this={messageContainer}>
 			{#each messages as message}
-				<div class={`${message.direction === 'inbound' ? 'their-messages' : 'my-messages'}`}>
+				<div
+					class={`${parseInt(message.from) === parseInt(selectedUser.phone) ? 'my-messages' : 'their-messages'}`}
+				>
 					<span class="message">
-						{message.body}
+						{@html message.body.replace(/\n/g, '<br/>')}
 					</span>
 				</div>
 			{/each}

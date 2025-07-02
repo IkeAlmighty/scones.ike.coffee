@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
-import { formatPhoneNumber } from '../utils/formatting.js';
+import { formatPhoneNumber } from '$lib/utils.js';
 
 const messageSchema = new mongoose.Schema({
 	from: { type: String, required: true },
 	to: { type: String, required: true },
 	body: { type: String, required: true },
-	direction: { type: String, enum: ['inbound', 'outbound'], required: true },
 	timestamp: { type: Date, default: Date.now }
 });
 
