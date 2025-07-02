@@ -36,7 +36,7 @@ export const POST = async ({ request, cookies }) => {
 		// send an onboarding message for sconifications:
 		if (user.notificationConsent) {
 			const body = `
-Hi, this is ike! I'll be sending SCONIFICATIONS (scone notifications) from this phone #.\n\n
+Hi, this is ike with scones.ike.coffee! I'll be sending SCONIFICATIONS (scone notifications) from this phone #.\n\n
 You can stop recieving sconifications at any time by texting STOP.`;
 			await createAndSendMessage({ to: user.phone, body });
 		}
