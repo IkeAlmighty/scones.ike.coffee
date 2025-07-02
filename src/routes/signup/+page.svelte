@@ -19,8 +19,7 @@
 		loading = true;
 
 		// abort if passwords don't match
-
-		if (password.trim() !== passwordRepeat.trim() || password.trim() === '') {
+		if (password && (password.trim() !== passwordRepeat.trim() || password.trim() === '')) {
 			error = 'Passwords do not match';
 			loading = false;
 			return;

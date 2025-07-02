@@ -6,10 +6,9 @@ function getReferralLinkFromId(id) {
 }
 
 function formatPhoneNumber(number) {
-	let formatted = number.replace(/[^0-9+]/g, '');
+	let formatted = number.toString().replace(/[^0-9+]/g, '');
 
-	if (formatted.length === 10) return `+1${formatted}`;
-	if (formatted.length === 11) return `+${formatted}`;
+	if (formatted.length === 10) return `1${formatted}`;
 
 	return formatted;
 }

@@ -1,7 +1,10 @@
-import { TWILIO_NUMBER } from '$env/static/private';
+import { TWILIO_NUMBER, TWILIO_SID, TWILIO_AUTH_TOKEN } from '$env/static/private';
+import twilio from 'twilio';
 import Message from '$lib/server/models/Message.js';
 import { formatPhoneNumber } from '$lib/utils.js';
 import { connectToDatabase } from '$lib/server/utils/mongoose.js';
+
+const client = twilio(TWILIO_SID, TWILIO_AUTH_TOKEN);
 
 /**
  *
