@@ -7,10 +7,9 @@ import { formatPhoneNumber } from '$lib/utils.js';
 export const GET = async ({ url }) => {
 	await connectToDatabase();
 
-	const phoneNumber = formatPhoneNumber(url.searchParams.get('phoneNumber'));
+	const phoneNumber = url.searchParams.get('phoneNumber');
 
 	const messages = await Message.find({ $or: [{ to: phoneNumber }, { from: phoneNumber }] }).lean();
-
 	return json({
 		messages
 	});
