@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { ADMIN_NUMBER } from '$env/static/private';
+import { formatPhoneNumber } from '$lib/utils';
 
 const userSchema = new mongoose.Schema(
 	{
@@ -13,20 +14,22 @@ const userSchema = new mongoose.Schema(
 	{ toJSON: { virtuals: true } }
 );
 
-// hash password as it is placed in database:
+// hash password as it is placed in database, and also format the phone number:
 userSchema.pre('save', async function (next) {
-	if (!this.isModified('password')) {
-		return next();
+	if (this.isModified('phone')) {
+		this.phone = formatPhoneNumber(this.phone);
 	}
 
-	try {
-		const saltedPw = await bcrypt.hash(this.password, 10);
-		this.password = saltedPw;
-
-		next();
-	} catch (error) {
-		return next(error);
+	if (this.isModified('password')) {
+		try {
+			const saltedPw = await bcrypt.hash(this.password, 10);
+			this.password = saltedPw;
+		} catch (error) {
+			return next(error);
+		}
 	}
+
+	return next();
 });
 
 userSchema.virtual('isAdmin').get(function () {
