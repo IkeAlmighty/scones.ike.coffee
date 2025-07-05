@@ -4,6 +4,7 @@ import { connectToDatabase } from '$lib/server/utils/mongoose.js';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '$env/static/private';
 import { createAndSendMessage } from '$lib/server/controllers/messages.js';
+import { getReferralLinkFromId } from '$lib/utils.js';
 
 export const POST = async ({ request, cookies }) => {
 	try {
