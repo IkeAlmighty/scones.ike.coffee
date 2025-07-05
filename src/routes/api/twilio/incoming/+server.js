@@ -48,7 +48,7 @@ export async function POST({ request }) {
 			await user.save();
 
 			await createAndSendMessage({
-				body: '${user.username} have unsubscribed from sconifications.',
+				body: `${user.username} has unsubscribed from sconifications.`,
 				to: ADMIN_NUMBER
 			});
 		}
@@ -62,7 +62,7 @@ export async function POST({ request }) {
 			await user.save();
 
 			await createAndSendMessage({
-				body: '${user.username} has subscribed to sconifications!',
+				body: `${user.username} has subscribed to sconifications!`,
 				to: ADMIN_NUMBER
 			});
 		}
