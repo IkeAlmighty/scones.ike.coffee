@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { User } from '$lib/server/models/User.js';
 import { connectToDatabase } from '$lib/server/utils/mongoose.js';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '$env/static/private';
+import { ADMIN_NUMBER, JWT_SECRET } from '$env/static/private';
 import { createAndSendMessage } from '$lib/server/controllers/messages.js';
 import { getReferralLinkFromId } from '$lib/utils.js';
 
@@ -28,8 +28,12 @@ export const POST = async ({ request, cookies }) => {
 
 		// create user:
 		let userData = { phone: phoneWithCountryCode, username, notificationConsent };
+		let referralUser;
 		if (password) userData.password = password;
-		if (referralId) userData.referral = referralId;
+		if (referralId) {
+			userData.referral = referralId;
+			referralUser = await User.findById(referralId);
+		}
 
 		const user = new User(userData);
 		await user.save();
@@ -40,6 +44,10 @@ export const POST = async ({ request, cookies }) => {
 Hi, this is ike with scones.ike.coffee! I'll be sending SCONIFICATIONS (scone notifications) from this phone #.\n\n
 You can stop recieving sconifications at any time by texting STOP.`;
 			await createAndSendMessage({ to: user.phone, body });
+			await createAndSendMessage({
+				to: ADMIN_NUMBER,
+				body: `${user.username} signed up for sconifications${referralUser && '. Referred by ' + referralUser.username}.`
+			});
 		}
 
 		// if the user created a password as well, then go ahead and log them in
