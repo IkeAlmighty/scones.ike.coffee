@@ -35,8 +35,8 @@ export async function POST({ request }) {
 			user = await User.create({ phone: from, notificationConsent: false });
 		}
 
-		const isStopRequest = body === 'STOP';
-		const isStartRequest = body === 'START';
+		const isStopRequest = body.toLowerCase() === 'stop';
+		const isStartRequest = body.toLowerCase() === 'start';
 		let adminMessage = `${user ? user.username : from} sent a message. https://scones.ike.coffee/account/admin?user=${user.id}`;
 
 		// disable textConsent if message contains 'STOP'
@@ -48,11 +48,12 @@ export async function POST({ request }) {
 			await user.save();
 
 			await createAndSendMessage({
-				body: 'You have unsubscribed from sconifications. TYSM for enforcing your digital boundaries <3. You can start recieving notifications again by texting START to this number.',
-				to: user.phone
+				body: '${user.username} have unsubscribed from sconifications.',
+				to: ADMIN_NUMBER
 			});
 		}
 
+		// enable text consent if message contains 'START'
 		if (isStartRequest) {
 			// reset admin message:
 			adminMessage = `${user.username || user.phone} has started text notifications! https://scones.ike.coffee/account/admin?user=${user.id}`;
@@ -61,8 +62,8 @@ export async function POST({ request }) {
 			await user.save();
 
 			await createAndSendMessage({
-				body: 'You have subscribed from sconifications!',
-				to: user.phone
+				body: '${user.username} has subscribed to sconifications!',
+				to: ADMIN_NUMBER
 			});
 		}
 
