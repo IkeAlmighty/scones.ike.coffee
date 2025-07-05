@@ -38,9 +38,6 @@ export const POST = async ({ request, cookies }) => {
 		if (user.notificationConsent) {
 			const body = `
 Hi, this is ike with scones.ike.coffee! I'll be sending SCONIFICATIONS (scone notifications) from this phone #.\n\n
-I'm also starting a referral system for free scones. Send this link to friends:\n\n
-${getReferralLinkFromId(user.id)}\n\n
-For every friend that signs up via that link you get 2 free scones at my next sale :)\n\n
 You can stop recieving sconifications at any time by texting STOP.`;
 			await createAndSendMessage({ to: user.phone, body });
 		}

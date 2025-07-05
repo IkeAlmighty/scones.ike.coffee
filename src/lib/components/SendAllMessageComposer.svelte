@@ -12,7 +12,7 @@
 		e.target.disabled = true;
 
 		// parse phone numbers into list:
-		const numbers = to.split(',').map((n) => formatPhoneNumber(n).trim());
+		const numbers = to.split(',').map((n) => formatPhoneNumber(n));
 		console.log(numbers);
 		try {
 			const res = await fetch('/api/twilio/send-referral-link', {
