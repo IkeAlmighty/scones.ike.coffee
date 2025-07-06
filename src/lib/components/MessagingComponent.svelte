@@ -41,8 +41,9 @@
 	}
 
 	function setSelectedPhoneNumber(e) {
+		if (e.target.value === 'Select a User') return (selectedUser = undefined);
 		let phone = e.target.value.split('|')[1].trim();
-		selectedUser = consentingUsers.find((u) => u.phone == phone);
+		selectedUser = consentingUsers.find((u) => u?.phone == phone);
 		updateMessages();
 	}
 
@@ -102,7 +103,7 @@
 
 	<hr />
 
-	{#if !sendToAll}
+	{#if !sendToAll && selectedUser}
 		<!-- Scrollable message log -->
 		<div class="message-log" bind:this={messageContainer}>
 			{#each messages as message}
