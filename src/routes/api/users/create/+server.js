@@ -33,6 +33,11 @@ export const POST = async ({ request, cookies }) => {
 		if (referralId) {
 			userData.referral = referralId;
 			referralUser = await User.findById(referralId);
+			const totalReferrals = (await User.find({ referral: referralId }).lean()).length;
+			await createAndSendMessage({
+				to: referralUser.phone,
+				body: `${username} has signed up for sconifications. You have accumulated ${totalReferrals * 2} free scones :3`
+			});
 		}
 
 		const user = new User(userData);
@@ -47,7 +52,7 @@ Send this referral link to your friends to get free scones at my next sale: ${ge
 			await createAndSendMessage({ to: user.phone, body });
 			await createAndSendMessage({
 				to: ADMIN_NUMBER,
-				body: `${user.username} signed up for sconifications${referralUser && '. Referred by ' + referralUser.username}.`
+				body: `${user.username} signed up for sconifications ${referralUser ? '. Referred by ' + referralUser.username : ''}.`
 			});
 		}
 
