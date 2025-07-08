@@ -29,15 +29,14 @@ export async function POST({ request, locals }) {
 		});
 	}
 
-	try {
-		const sidList = [];
+	const sidList = [];
 
-		for (let user of consentingUsers) {
+	for (let user of consentingUsers) {
+		try {
 			const body = `
-I'm starting a referral system for free scones. Send this link to friends:\n\n
+Your referral link, in case I forgot to send it:\n\n
 ${getReferralLinkFromId(user.id)}\n\n
-For every friend that signs up via that link you get 2 free scones at my next sale :)\n\n
-You can stop recieving sconifications at any time by texting STOP to this number.
+For every friend that signs up via this link you get 2 free scones at my next sale :)\n\n
       `;
 
 			const message = await client.messages.create({
@@ -50,11 +49,12 @@ You can stop recieving sconifications at any time by texting STOP to this number
 
 			// update database as well:
 			await Message.create({ from: TWILIO_NUMBER, to: user.phone, body });
-		}
 
-		return json({ sidList });
-	} catch (err) {
-		console.error('❌ Twilio send error:', err);
-		return json({ error: err.message }, { status: 500 });
+			console.log(`sent link for ${user.username}`);
+		} catch (err) {
+			console.error('❌ Twilio send error:', err);
+		}
 	}
+
+	return json({ sidList });
 }
