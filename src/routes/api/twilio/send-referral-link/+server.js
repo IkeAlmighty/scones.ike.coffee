@@ -34,7 +34,7 @@ export async function POST({ request, locals }) {
 	for (let user of consentingUsers) {
 		try {
 			const body = `
-Your referral link, in case I forgot to send it:\n\n
+Your referral link (ignore if you already recieved yours):\n\n
 ${getReferralLinkFromId(user.id)}\n\n
 For every friend that signs up via this link you get 2 free scones at my next sale :)\n\n
       `;
