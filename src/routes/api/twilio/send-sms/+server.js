@@ -1,8 +1,9 @@
 import twilio from 'twilio';
 import { json } from '@sveltejs/kit';
-import { TWILIO_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } from '$env/static/private';
+import { TWILIO_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER, ADMIN_NUMBER } from '$env/static/private';
 import { User } from '$lib/server/models/User.js';
 import Message from '$lib/server/models/Message.js';
+import { createAndSendMessage } from '$lib/server/controllers/messages.js';
 
 const client = twilio(TWILIO_SID, TWILIO_AUTH_TOKEN);
 
@@ -23,10 +24,10 @@ export async function POST({ request, locals }) {
 		numbers = consentingUsers.map((user) => user.phone);
 	}
 
-	try {
-		const sidList = [];
+	const sidList = [];
 
-		for (let recipient of numbers) {
+	for (let recipient of numbers) {
+		try {
 			const message = await client.messages.create({
 				body,
 				from: TWILIO_NUMBER,
@@ -37,11 +38,14 @@ export async function POST({ request, locals }) {
 
 			// update database as well:
 			await Message.create({ from: TWILIO_NUMBER, to: recipient, body });
+		} catch (err) {
+			console.error('❌ Twilio send error:', err);
+			await createAndSendMessage({
+				to: ADMIN_NUMBER,
+				body: `Could not send message to ${recipient.username}. See logs for more.`
+			});
 		}
-
-		return json({ sidList });
-	} catch (err) {
-		console.error('❌ Twilio send error:', err);
-		return json({ error: err.message }, { status: 500 });
 	}
+
+	return json({ sidList });
 }

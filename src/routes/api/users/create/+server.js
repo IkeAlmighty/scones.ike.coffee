@@ -23,7 +23,7 @@ export const POST = async ({ request, cookies }) => {
 		// check to see if user exists already, if so then abort and send an error message:
 		const exists = await User.findOne({ phone: parseInt(phoneWithCountryCode) });
 		if (exists) {
-			return json({ error: `${phoneWithCountryCode} is already exists.` }, { status: 400 });
+			return json({ error: `${phoneWithCountryCode} already exists.` }, { status: 400 });
 		}
 
 		// create user:
