@@ -50,23 +50,23 @@
 		Bike delivery has been paused due to a lack of spoons.
 	</div>
 
-	<div>
-		<div>
-			<div>Need to leave me a message?? Go for it:</div>
-			<div class="font-sm">( testimonials welcome )</div>
-			<textarea bind:value={message} />
-			<button on:click={sendMessage}>Send</button>
-		</div>
-	</div>
-
 	<div class="text-center">
-		<h2>Next Scone Sale:<br />June 21, 9am - Noon</h2>
+		<h2>Next Scone Sale:<br />July 13th, 11am - 2pm</h2>
 		<div>
 			Message on <a
 				id="ig-embedded-link"
 				href="https://www.instagram.com/scones.ike.coffee/"
 				target="_blank"><IgIcon /></a
 			> for address
+		</div>
+	</div>
+	<br />
+	<div>
+		<div>
+			<div>Need to leave me a message?? Go for it:</div>
+			<div class="font-sm">( testimonials welcome )</div>
+			<textarea bind:value={message} />
+			<button on:click={sendMessage}>Send</button>
 		</div>
 	</div>
 

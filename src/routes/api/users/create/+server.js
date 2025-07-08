@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import { User } from '$lib/server/models/User.js';
 import { connectToDatabase } from '$lib/server/utils/mongoose.js';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import { ADMIN_NUMBER, JWT_SECRET } from '$env/static/private';
 import { createAndSendMessage } from '$lib/server/controllers/messages.js';
 import { getReferralLinkFromId } from '$lib/utils.js';
@@ -33,10 +34,12 @@ export const POST = async ({ request, cookies }) => {
 		if (referralId) {
 			userData.referral = referralId;
 			referralUser = await User.findById(referralId);
-			const totalReferrals = (await User.find({ referral: referralId }).lean()).length;
+			const totalReferrals = (
+				await User.find({ referral: new mongoose.Types.ObjectId(referralId) }).lean()
+			).length;
 			await createAndSendMessage({
 				to: referralUser.phone,
-				body: `${username} has signed up for sconifications. You have accumulated an additional 2 free scones :3`
+				body: `${username} has signed up for sconifications. You have accumulated ${totalReferrals * 2} free scones :3`
 			});
 		}
 
