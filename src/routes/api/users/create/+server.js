@@ -36,7 +36,7 @@ export const POST = async ({ request, cookies }) => {
 			const totalReferrals = (await User.find({ referral: referralId }).lean()).length;
 			await createAndSendMessage({
 				to: referralUser.phone,
-				body: `${username} has signed up for sconifications. You have accumulated ${totalReferrals * 2} free scones :3`
+				body: `${username} has signed up for sconifications. You have accumulated an additional 2 free scones :3`
 			});
 		}
 
