@@ -5,7 +5,7 @@
 ## Overview
 
 **scones.ike.coffee** is a microbakery I started in South Minneapolis. From day one, I’ve built the business iteratively around a simple idea:  
-**Sell delicious scones—and make it feel personal.**
+**Sell delicious scones and build fun relationships**
 
 ## 💻 Tech Stack
 
