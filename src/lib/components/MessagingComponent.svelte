@@ -52,7 +52,7 @@
 		e.target.value = 'Sending...';
 		e.target.disabled = true;
 
-		const numbers = [selectedUser.phone];
+		const numbers = [selectedUser?.phone];
 
 		try {
 			const res = await fetch('/api/twilio/send-sms', {
@@ -125,13 +125,13 @@
 		</label>
 	</div>
 
-	<form on:submit|preventDefault={sendSMS}>
+	<form on:submit|preventDefault={() => {}}>
 		<label>
 			<div>Message to {sendToAll ? 'EVERYONE' : selectedUser?.username}:</div>
 			<textarea bind:value={body} required></textarea>
 		</label>
 
-		<input type="submit" value="Send SMS" />
+		<input type="submit" value="Send SMS" on:click={sendSMS} />
 	</form>
 
 	<p>{statusMessage}</p>
