@@ -7,6 +7,7 @@
 
 	import { products } from '$lib/pickupProducts.js';
 	import testimonials from '$lib/testimonials.js';
+	import { onMount } from 'svelte';
 
 	let cart = { ...products };
 
@@ -29,6 +30,10 @@
 
 		e.target.disabled = false;
 	}
+
+	onMount(() => {
+		document.location = '/signup';
+	});
 </script>
 
 <svelte:window bind:innerWidth />
@@ -50,7 +55,7 @@
 		Bike delivery has been paused due to a lack of spoons.
 	</div>
 
-	<div class="text-center">
+	<!-- <div class="text-center">
 		<h2>Next Scone Sale:<br />July 13th, 11am - 2pm</h2>
 		<div>
 			Message on <a
@@ -59,7 +64,7 @@
 				target="_blank"><IgIcon /></a
 			> for address
 		</div>
-	</div>
+	</div> -->
 	<br />
 	<div>
 		<div>
