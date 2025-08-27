@@ -38,6 +38,7 @@
 		const res = await fetch(`/api/users/phone-numbers`);
 		const data = await res.json();
 		consentingUsers = data.users;
+		consentingUsers.sort((a, b) => a.username.localeCompare(b.username));
 	}
 
 	function setSelectedPhoneNumber(e) {
