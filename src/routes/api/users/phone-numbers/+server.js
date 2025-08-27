@@ -8,6 +8,7 @@ export async function GET({ cookies }) {
 	const token = cookies.get('authToken');
 
 	if (!token) {
+		console.log('authToken could not be found.');
 		return json({ error: 'Unauthorized' }, { status: 401 });
 	}
 
@@ -18,7 +19,8 @@ export async function GET({ cookies }) {
 			return json({ error: 'User not found' }, { status: 404 });
 		}
 
-		if (user.phone != ADMIN_NUMBER) {
+		if (!user.isAdmin) {
+			console.log('user is not an admin');
 			return json({ error: 'Unauthorized' }, { status: 401 });
 		}
 
