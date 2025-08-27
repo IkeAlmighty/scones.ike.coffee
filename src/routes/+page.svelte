@@ -30,10 +30,6 @@
 
 		e.target.disabled = false;
 	}
-
-	onMount(() => {
-		document.location = '/signup';
-	});
 </script>
 
 <svelte:window bind:innerWidth />
@@ -53,18 +49,11 @@
 
 	<div class="font-sm danger-italic text-center my-2">
 		Bike delivery has been paused due to a lack of spoons.
+		<br />
+		<br />
+		You can sign up for sconifications <a href="/signup">here</a>.
 	</div>
 
-	<!-- <div class="text-center">
-		<h2>Next Scone Sale:<br />July 13th, 11am - 2pm</h2>
-		<div>
-			Message on <a
-				id="ig-embedded-link"
-				href="https://www.instagram.com/scones.ike.coffee/"
-				target="_blank"><IgIcon /></a
-			> for address
-		</div>
-	</div> -->
 	<br />
 	<div>
 		<div>

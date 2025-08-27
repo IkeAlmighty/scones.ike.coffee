@@ -16,7 +16,6 @@ export async function getUserFromSession(token) {
 
 		return {
 			id: user.id,
-			phone: user.phone,
 			username: user.username,
 			isAdmin: user.isAdmin
 		};
