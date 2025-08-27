@@ -33,7 +33,7 @@ export const POST = async ({ request, cookies }) => {
 			cookies.set('authToken', token, {
 				path: '/',
 				httpOnly: true,
-				sameSite: 'strict',
+				sameSite: 'lax',
 				secure: process.env.NODE_ENV === 'production',
 				maxAge: 60 * 60 * 24 * 7 // 7 days
 			});

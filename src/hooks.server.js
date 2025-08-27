@@ -1,5 +1,4 @@
-import { goto } from '$app/navigation';
-import { getUserFromSession } from '$lib/server/utils/auth'; // Your own function to check cookies/session
+import { getUserFromSession } from '$lib/server/utils/auth';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
