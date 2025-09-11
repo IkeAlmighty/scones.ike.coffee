@@ -194,7 +194,7 @@
 	}
 
 	textarea {
-		min-height: 2rem;
+		min-height: 20rem;
 		resize: vertical;
 		width: 100%;
 	}
