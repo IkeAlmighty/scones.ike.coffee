@@ -4,6 +4,7 @@ import { TWILIO_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER, ADMIN_NUMBER } from '$env
 import { User } from '$lib/server/models/User.js';
 import Message from '$lib/server/models/Message.js';
 import { createAndSendMessage } from '$lib/server/controllers/messages.js';
+import { getReferralLinkFromId } from '$lib/utils.js';
 
 const client = twilio(TWILIO_SID, TWILIO_AUTH_TOKEN);
 
@@ -27,9 +28,11 @@ export async function POST({ request, locals }) {
 	const sidList = [];
 
 	for (let recipient of numbers) {
+		const user = await User.findOne({ phone: recipient });
+		const _body = body.replace('%REF%', getReferralLinkFromId(user._id));
 		try {
 			const message = await client.messages.create({
-				body,
+				body: _body,
 				from: TWILIO_NUMBER,
 				to: recipient
 			});
