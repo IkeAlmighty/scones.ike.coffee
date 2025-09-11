@@ -30,6 +30,7 @@ export async function POST({ request, locals }) {
 	for (let recipient of numbers) {
 		const user = await User.findOne({ phone: recipient });
 		const _body = body.replace('%REF%', getReferralLinkFromId(user._id));
+
 		try {
 			const message = await client.messages.create({
 				body: _body,
@@ -40,7 +41,7 @@ export async function POST({ request, locals }) {
 			sidList.push(message.sid);
 
 			// update database as well:
-			await Message.create({ from: TWILIO_NUMBER, to: recipient, body });
+			await Message.create({ from: TWILIO_NUMBER, to: recipient, body: _body });
 		} catch (err) {
 			console.error('❌ Twilio send error:', err);
 			await createAndSendMessage({
