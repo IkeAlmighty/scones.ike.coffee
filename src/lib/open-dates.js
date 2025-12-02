@@ -1,4 +1,3 @@
 export default [
 	// MONTH-DAY-YEAR
-	'12-25-2025'
 ];
