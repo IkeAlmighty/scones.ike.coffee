@@ -71,8 +71,8 @@
 	</div>
 	<hr />
 
-	<h2>Place Your Order:</h2>
-	<div class="font-sm">Now taking preorders for winter sale 12/20 & 12/21</div>
+	<h2 class="header">Place Your Order:</h2>
+	<div class="header-tagline">Now taking preorders for winter sale 12/20 & 12/21</div>
 
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
@@ -202,6 +202,14 @@
 </div>
 
 <style>
+	.header {
+		margin-bottom: 0.25rem;
+	}
+
+	.header-tagline {
+		font-size: 0.8rem;
+		margin-bottom: 4rem;
+	}
 	label div {
 		display: inline-block;
 		width: 10rem;
