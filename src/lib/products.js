@@ -3,6 +3,24 @@
 // create a cart. the backend uses this structure unedited to determin
 // cart total at checkout.
 export const products = {
+	'tea-blend-hll': {
+		name: "Lemony Hibiuscus (Andy's Foraged Tea)",
+		singular: 'tea bag',
+		amount: 0,
+		details: 'A hand-foraged blend of hibiscus, lemon balm, and lemongrass.',
+		suggestedPrice: 1,
+		mutualAid: true,
+		batchCounts: [0, 1, 3, 5, 10, 15, 20]
+	},
+	'tea-blend-mlb': {
+		name: "Bergamot Blend (Andy's Foraged Tea)",
+		singular: 'tea bag',
+		amount: 0,
+		details: 'A hand-foraged blend of mullein, lemongrass, and bergamot.',
+		suggestedPrice: 1,
+		mutualAid: true,
+		batchCounts: [0, 1, 3, 5, 10, 15, 20]
+	},
 	'blueberry-scone': {
 		name: 'Blueberry Scone',
 		singular: 'scone',
