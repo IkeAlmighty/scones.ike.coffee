@@ -72,7 +72,7 @@
 	<hr />
 
 	<h2>Place Your Order:</h2>
-	<div class="font-sm">Now taking preorders for winter sale 12/21 & 12/22</div>
+	<div class="font-sm">Now taking preorders for winter sale 12/20 & 12/21</div>
 
 	{#each Object.keys(products).filter((k) => k !== 'delivery-fee') as productKey}
 		<div class="product-item-container">
