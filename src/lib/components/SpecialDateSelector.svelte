@@ -7,7 +7,7 @@
 </script>
 
 <div class="text-center my-2">
-	<h3>Choose a date for pickup/delivery:</h3>
+	<h3>Choose a date for pickup:</h3>
 	{#each openDates as date}
 		{#if date.getTime() >= today.getTime()}
 			<button
