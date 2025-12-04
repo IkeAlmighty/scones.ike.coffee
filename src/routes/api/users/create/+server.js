@@ -49,7 +49,7 @@ export const POST = async ({ request, cookies }) => {
 		// send an onboarding message for sconifications:
 		if (user.notificationConsent) {
 			const body = `
-Hi, this is ike! Welcome to SCONIFICATIONS.You can stop recieving sconifications at any time by texting STOP.\n\n
+Welcome to SCONIFICATIONS. You can stop recieving sconifications at any time by texting STOP.\n\n
 Send this referral link to your friends to get free scones at my next sale: ${getReferralLinkFromId(user.id)}
 `;
 			await createAndSendMessage({ to: user.phone, body });
