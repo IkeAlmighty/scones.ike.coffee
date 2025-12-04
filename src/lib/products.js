@@ -47,7 +47,7 @@ export const products = {
 		imageUrl: '/mystery-flavor.jpg',
 		amount: 0,
 		details:
-			'Whatever I feel like baking! If you are allergic to something, let me know in the notes.',
+			'Whatever I feel like baking! If you are allergic to something, let me know in the special instructions.',
 		suggestedPrice: 3.5,
 		mutualAid: true,
 		batchCounts: [0, 6, 12, 18, 24]
