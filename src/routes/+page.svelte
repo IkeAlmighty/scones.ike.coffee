@@ -18,6 +18,8 @@
 	import testimonials from '$lib/testimonials.js';
 	import SpecialDateSelector from '$lib/components/SpecialDateSelector.svelte';
 
+	export let data;
+
 	let cart = { ...products };
 	$: suggestedPayment = calcSuggestedPayment(cart);
 
@@ -34,17 +36,42 @@
 
 	let payInPerson = false;
 
+	let consentToNotifications = true;
+
 	// update delivery fee if the delivery toggle is selected
 	$: delivering ? (cart['delivery-fee'].amount = 1) : (cart['delivery-fee'].amount = 0);
 
 	async function submitOrder(e) {
 		e.target.disabled = true;
 		e.target.innerText = 'one moment...';
+
+		if (!data.user && consentToNotifications) {
+			const res = await fetch('/api/users/create', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					phone: customerContact,
+					username: customerName,
+					password: undefined,
+					referralId: undefined,
+					notificationConsent: true
+				})
+			});
+		}
+
 		// send order to backend to be emailed to me:
 		let customerInfo = `${customerName}\ncustomer phone: ${customerContact}\n${delivering ? `Address: ${customerAddress}` : 'for pick up'}\nPickup/Delivery Date: ${deliveryDate}\nPaid: ${payInPerson ? 'Paying in person.' : 'yes'}\n\nAddition Details:\n${additionalDetails}`;
 		const apiResponse = await fetch('/', {
 			method: 'POST',
-			body: JSON.stringify({ message: `${customerInfo}\n\n${stringifyCart(cart)}` }),
+			body: JSON.stringify({
+				message: `${customerInfo}\n\n${stringifyCart(cart)}`,
+				phone: customerContact,
+				cart: stringifyCart(cart),
+				delivering,
+				deliveryDate
+			}),
 			headers: { 'Content-Type': 'application/json' }
 		});
 
@@ -105,6 +132,14 @@
 				<input type="text" bind:value={customerName} /></label
 			>
 		</div>
+		{#if !data.user}
+			<div class="my-1">
+				<label>
+					<input type="checkbox" bind:checked={consentToNotifications} />
+					Notify me of future scone sales via text message
+				</label>
+			</div>
+		{/if}
 
 		<div class="my-1">
 			<SpecialDateSelector
