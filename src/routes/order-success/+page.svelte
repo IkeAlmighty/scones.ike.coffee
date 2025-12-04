@@ -19,7 +19,7 @@
 {/each}
 
 <hr />
-<div>I will reach out via text in the next 24 hours to confirm delivery/pickup time!</div>
+<div>You should recieve and automated text confirming your order!</div>
 
 <div><a href="/">&lt;-- back to order page</a></div>
 
