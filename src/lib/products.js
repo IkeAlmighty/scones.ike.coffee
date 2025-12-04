@@ -22,12 +22,22 @@ export const products = {
 		batchCounts: [0, 1, 3, 5, 10, 15, 20]
 	},
 	'blueberry-scone': {
-		name: 'Blueberry Scone',
+		name: 'Blueberry Vanilla Scone',
 		singular: 'scone',
 		imageUrl: '/blueberry.jpg',
 		amount: 0,
 		details: 'A classic blueberry scone.',
-		suggestedPrice: 3,
+		suggestedPrice: 3.5,
+		mutualAid: true,
+		batchCounts: [0, 6, 12, 18, 24]
+	},
+	'raspberry-white-chocolate-scone': {
+		name: 'Raspberry White Chocolate Scone',
+		singular: 'scone',
+		imageUrl: '/raspberry-white-chocolate.jpg',
+		amount: 0,
+		details: 'A winter delight, studded with delicious raspberries and white chocolate chips.',
+		suggestedPrice: 3.5,
 		mutualAid: true,
 		batchCounts: [0, 6, 12, 18, 24]
 	},
@@ -37,8 +47,8 @@ export const products = {
 		imageUrl: '/mystery-flavor.jpg',
 		amount: 0,
 		details:
-			'Whatever I feel like baking! If you are allergic to something, let me know in the notes.',
-		suggestedPrice: 3,
+			'Whatever I feel like baking! If you are allergic to something, let me know in the special instructions.',
+		suggestedPrice: 3.5,
 		mutualAid: true,
 		batchCounts: [0, 6, 12, 18, 24]
 	},
