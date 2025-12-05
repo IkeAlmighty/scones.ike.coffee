@@ -14,6 +14,9 @@
 	let clientSecret = '';
 	let currency = 'usd';
 
+	let isProcessing = false;
+	let errorMessage = '';
+
 	$: min = calcMinSuggestedPayment(cart);
 	$: max = calcSuggestedPayment(cart) * 2.5;
 
@@ -30,6 +33,7 @@
 
 	async function handleSubmit(event) {
 		event.preventDefault();
+		isProcessing = true;
 
 		try {
 			const res = await fetch('/api/create-payment-intent', {
@@ -43,7 +47,7 @@
 			const data = await res.json();
 			clientSecret = data.clientSecret;
 
-			//confirm payment with card element and client secret:
+			// confirm payment with card element and client secret:
 
 			const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
 				payment_method: {
@@ -53,12 +57,15 @@
 
 			if (error) {
 				console.log(error.message);
+				errorMessage = error.message;
 			} else if (paymentIntent.status === 'succeeded') {
 				sideEffect(event);
 				console.log('payment succeeded');
 			}
 		} catch (err) {
 			console.error('payment failed'); //TODO: replace with user toast notification
+		} finally {
+			isProcessing = false;
 		}
 	}
 </script>
@@ -73,7 +80,18 @@
 		{/if}
 	</div>
 	<div id="card-element"></div>
-	<button type="submit">Submit Scone Order</button>
+
+	{#if errorMessage}
+		<div class="danger-italic font-sm">{errorMessage}</div>
+	{/if}
+
+	<button type="submit" disabled={isProcessing}>
+		{#if isProcessing}
+			Processing...
+		{:else}
+			Submit Scone Order
+		{/if}
+	</button>
 </form>
 
 <style>
